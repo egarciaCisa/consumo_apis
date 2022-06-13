@@ -1,0 +1,35 @@
+[33mcommit 5841bdff2185831c8f3760206b4df7ea76ebef90[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: egarciaCisa <egarcia@ci-sa.com.mx>
+Date:   Wed May 25 12:35:39 2022 -0500
+
+    ACTUALIZACION 6 -> MODIFIQUE MODELO PARA GUARDAR EN LA TABLA TIRECHECK DATOS JSON
+
+[33mcommit 334a12ebad6c9f600eceb89f78d9bc75eb614ba8[m
+Author: egarciaCisa <egarcia@ci-sa.com.mx>
+Date:   Mon May 23 09:45:02 2022 -0500
+
+    Modifique el model para obtener todos los datos
+
+[33mcommit 3ddf3d8436e437bdd24a96536cabe0cabd668fa9[m
+Author: egarciaCisa <egarcia@ci-sa.com.mx>
+Date:   Sun May 22 23:14:40 2022 -0500
+
+    ACTUALIZACION 4 -> Actualice la entrada de datos a la tabla 2
+
+[33mcommit cb4e25b84f8006d92e0849df8db9639d70a25044[m
+Author: egarciaCisa <egarcia@ci-sa.com.mx>
+Date:   Sat May 21 11:39:04 2022 -0500
+
+    controlado y model tab_tireckeck_Measurement
+
+[33mcommit 2c519c1a47f915a660ee05775a77fe10fa91d3df[m
+Author: egarciaCisa <egarcia@ci-sa.com.mx>
+Date:   Fri May 20 14:08:49 2022 -0500
+
+    Agregando modelo para ver la tabla de tab_tirecheck
+
+[33mcommit cbe9b765339dfb2c7c3b4799a5dc85f10dd95f3b[m
+Author: egarciaCisa <egarcia@ci-sa.com.mx>
+Date:   Fri May 20 11:24:22 2022 -0500
+
+    Agregando primer repositorio
