@@ -340,5 +340,62 @@ class ModeloTyrecheck{
 
 	}
 
+	/*=============================================
+	Actualizar TABLA CONTROLADORES GETTIME
+	=============================================*/
+
+	static public function mdlAactualizarConsultaGetTime($tabla, $item1, $valor1, $item2, $valor2){
+
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item2 = :$item2 WHERE $item1 = :$item1");
+
+		$stmt -> bindParam(":".$item2, $valor2, PDO::PARAM_STR);
+		$stmt -> bindParam(":".$item1, $valor1, PDO::PARAM_STR);
+
+		if($stmt -> execute()){
+
+			return "okGet";
+		
+		}else{
+
+			echo "\nPDO::errorInfo():\n";
+    		print_r(Conexion::conectar()->errorInfo());
+
+		}
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
+
+	/*=============================================
+	Actualizar TABLA CONTROLADORES FECHAS
+	=============================================*/
+
+	static public function mdlAactualizarConsultafechas($tabla, $item1, $valor1, $item2, $valor2, $item3, $valor3){
+
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item2 = :$item2, $item3 = :$item3  WHERE $item1 = :$item1");
+
+		$stmt -> bindParam(":".$item3, $valor3, PDO::PARAM_STR);
+		$stmt -> bindParam(":".$item2, $valor2, PDO::PARAM_STR);
+		$stmt -> bindParam(":".$item1, $valor1, PDO::PARAM_INT);
+
+		if($stmt -> execute()){
+
+			return "okFech";
+		
+		}else{
+
+			echo "\nPDO::errorInfo():\n";
+    		print_r(Conexion::conectar()->errorInfo());
+
+		}
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
+
 
 }

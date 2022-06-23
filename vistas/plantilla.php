@@ -31,81 +31,34 @@ $hora = date('H:i:s');
 $fechaActual = $fecha.' '.$hora;
 $controlador = ControladorInicio::ctrMostrarConsultaControlador(null,null);
 
-function actualizarConsultaGetTime($fechaActual,$setTime,$dia,$id){
+function actualizarConsultaGetTime($fechaActual,$setTime){
 
-	if($setTime > $fechaActual){
+	if ($fechaActual >= $setTime){
 
-		$fecha1 = substr($fechaActual,0,-9);
-		$fecha2 = substr($setTime,0,-9);
-		
+		return "ok";
 
-		if( $fecha1 == $fecha2 ){
-
-			$fecha = substr($setTime,0,-8);
-
-			$fechaSetTime = date('Y-m-d H:i:s', strtotime($fecha.' + '.$dia.' days'));
-			
-			$fechaSetTime = substr($fechaSetTime,0,-9).' 00:00:10';
-
-			return $actualizarGetTime = ControladorInicio::ctrAactualizarConsultaGetTime($id,$fechaSetTime);
-
-		}else{
-			return "nel";
-		}
 
 	}else{
-
-		$fecha = substr($fechaActual,0,-8);
-
-		$fechaD = date('Y-m-d H:i:s', strtotime($fecha.' + 1 days'));
-
-		$fechaDefaul = substr($fechaD,0,-9).' 00:00:10';
-
-		if($id){
-			
-			return $actualizarGetTime = ControladorInicio::ctrAactualizarConsultaGetTime($id,$fechaDefaul);
-
-		}
-
 		
-
-
-	}
-}
-
-
-function actualizarConsultaFechas($fechaActual,$setTime,$fechasFinal,$dia2,$id){
-
-	$fecha1 = substr($fechaActual,0,-9);
-	$fecha2 = substr($setTime,0,-9);
-
-
-	if($fecha1 == $fecha2){
-
-		$fecha = substr($fechasFinal,0,-9);
-		$fechaInicio = substr($fechasFinal,0,-9).' 00:00:00';
-		$getFechaFinal = date('Y-m-d H:i:s', strtotime($fecha.' + '.$dia2.' days'));
-		$getFechaFinal = substr($getFechaFinal,0,-9).' 00:00:00';
-
-		return $actualizarGetTime = ControladorInicio::ctrAactualizarConsultafechas($id,$fechaInicio,$getFechaFinal);
-
-	}else{
 		return "nel";
 	}
+
+
 }
 
-$arrayTime = array();
-
 if($controlador){
+
+	
 
 	foreach ($controlador as $key => $value) {
 
 		$arrayTime[$key] = array(
-			"actualizarGetTime" => actualizarConsultaGetTime($fechaActual,$value["setTime"],$value["ValueSetTime"],$value["id"]),
-			"actualizarFechas" => actualizarConsultaFechas($fechaActual,$value["setTime"],$value["fechafinal"],$value["consulta"],$value["id"]),
+			"actualizar" => actualizarConsultaGetTime($fechaActual,$value["settime"]),
 			"setTime" => $value["setTime"],
 			"fechaInicio" => substr($value["fechaInicio"],0,-9),
 			"fechaFinal" => substr($value["fechaFinal"],0,-9),
+			"consulta" => $value["consulta"],
+			"valueSetTime" => $value["ValueSetTime"],
 			"paginaInicio" => $value["paginaInicio"],
 			"paginaFinal" => $value["paginaFinal"],
 			"nombreApi" => $value["nombreApi"],
@@ -118,55 +71,9 @@ if($controlador){
 }else{
 
 	$arrayTime[$key] = array(
-		"actualizarGetTime" => "vacio",
-		"actualizarFechas" => "vacio",
-		"setTime" => $fechaActual,
-		"fechaInicio" => "",
-		"fechaFinal" => "",
-		"paginaInicio" => 0,
-		"paginaFinal" => 0,
-		"nombreApi" => "vacio",
-		"idTyrecheck" => "",
-		"idCloudcore" => ""
 	);
 
 }
-
-
-
-//echo "Actualizar Crono ".actualizarConsultaGetTime($fechaActual,"2022-06-08 00:00:00",1,1);
-//echo "Actualizar Fecha ".actualizarConsultaFechas($fechaActual,"2022-06-09 00:00:00","2022-01-01 00:00:00",30,1);
-
-//$cloudcore = ControladorCloudcore::ctrInicializarConsultaApi($fechaActual,$fechaFinal,$nombre_cloudcore,$ultimoRegistro_Tyrecheck,1,20);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
 
 if($fechaBaseDatos_Tyrecheck > $fechaActual){
 	$dateTime1 = new DateTime($fechaFinal);
@@ -335,7 +242,7 @@ if(isset($_SESSION["idBackend"])){
 
 			foreach ($arrayTime as $key => $value) {
 
-				echo '<input type="hidden" act1="'.$value["actualizarGetTime"].'" act2="'.$value["actualizarFechas"].'" idTyrecheck="'.$value["idTyrecheck"].'" idCloudcore="'.$value["idCloudcore"].'" nombreApi="'.$value["nombreApi"].'" fechaInicio="'.$value["fechaInicio"].'" fechaFinal="'.$value["fechaFinal"].'" setTime="'.$fechaCountdown_Tyrecheck["setTime"].'" pi="'.$value["paginaInicio"].'" pf="'.$value["paginaFinal"].'" id="'.$value["nombreApi"].'" >';
+				echo '<input type="hidden" act="'.$value["actualizar"].'" idTyrecheck="'.$value["idTyrecheck"].'" idCloudcore="'.$value["idCloudcore"].'" nombreApi="'.$value["nombreApi"].'" fechaInicio="'.$value["fechaInicio"].'" fechaFinal="'.$value["fechaFinal"].'" setTime="'.$value["setTime"].'" fechaActual="'.$fechaActual.'" consulta="'.$value["consulta"].'" valueSetTime="'.$value["valueSetTime"].'" pi="'.$value["paginaInicio"].'" pf="'.$value["paginaFinal"].'" id="'.$value["nombreApi"].'" >';
 	
 			}
 
@@ -344,8 +251,8 @@ if(isset($_SESSION["idBackend"])){
 
 		}
 
-			//echo '<input type="hidden" act1="nel" act2="ok" idTyrecheck="5" idCloudcore="0" nombreApi="Tyrecheck" fechaInicio="2022-05-01" fechaFinal="2022-05-31" setTime="'.$fechaActual.'" pi="0" pf="0" id="Tyrecheck">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="122" nombreApi="Cloudcore" fechaInicio="2022-05-01" fechaFinal="2022-05-02" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
+			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="5" idCloudcore="0" nombreApi="Tyrecheck" fechaInicio="2022-05-01" fechaFinal="2022-05-31" setTime="'.$fechaActual.'" pi="0" pf="0" id="Tyrecheck">';
+			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="125" nombreApi="Cloudcore" fechaInicio="2022-06-04" fechaFinal="2022-06-05" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
 			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="123" nombreApi="Cloudcore" fechaInicio="2022-05-02" fechaFinal="2022-05-03" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
 			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="124" nombreApi="Cloudcore" fechaInicio="2022-05-03" fechaFinal="2022-05-04" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
 			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="125" nombreApi="Cloudcore" fechaInicio="2022-05-04" fechaFinal="2022-05-05" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';

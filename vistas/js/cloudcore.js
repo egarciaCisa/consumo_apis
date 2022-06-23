@@ -1,10 +1,15 @@
-function actualizarDatosJsonCloudcore(ultimoId,token,fechaI,fechaF,pi,pf){
+function actualizarDatosJsonCloudcore(ultimoId,nomApi,token,fechaI,fechaF,fechaA,fechaS,numF,numS,pi,pf){
 
 	let datos = new FormData();
 		datos.append("idConsulta", ultimoId);
+		datos.append("nombreApi", nomApi);
 		datos.append("token", token);
 		datos.append("fechaInicio", fechaI);
 		datos.append("fechaFinal", fechaF);
+		datos.append("fechaActual", fechaA);
+		datos.append("fechaSetTime", fechaS);
+		datos.append("consulta", numF);
+		datos.append("ValueSetTime", numS);
 		datos.append("pagInicio", pi);
 		datos.append("pagFinal", pf);
 		//datos.append("paginaFinal", pf);
@@ -19,13 +24,24 @@ function actualizarDatosJsonCloudcore(ultimoId,token,fechaI,fechaF,pi,pf){
 			processData: false,
 			success:function(respuesta){
 
+				console.log(respuesta);
 	
-				if(respuesta){
-					console.log("[200] Registro Cloudcore ok");
+				if(respuesta == "ok-si"){
+
+					console.log("[Cloudcore] Registros [cargado] / setTime [ok]");
+					$("#loading").hide();
+					$("#dody").show();
 				
-				}else{
-					console.log("[500] Registro Cloudcore error");
+				}else if(respuesta == "ok-no"){
+					console.log("[Cloudcore] Registros [vacio] / setTime [ok]");
+					$("#loading").hide();
+					$("#dody").show();
 					
+				}else{
+					console.log("[Cloudcore] Registros [error] / setTime [error]");
+					$("#loading").hide();
+					$("#dody").show();
+
 				}
 
 			}
@@ -37,67 +53,64 @@ function actualizarDatosJsonCloudcore(ultimoId,token,fechaI,fechaF,pi,pf){
 
 }
 
-function solicitarTokenCloudcore(ultimoId,nombApi,fechaI,fechaF,pi,pf) {
+function solicitarTokenCloudcore(ultimoId,nombApi,fechaI,fechaF,fechaA,fechaS,numF,numS,pi,pf) {
 
 	if(ultimoId){
 
-		console.log(ultimoId);
+		//console.log(ultimoId);
 
-	$("#dody").hide();
-	$("#loading").show();
-	  
-	  ultimoId = parseInt(ultimoId);
-  
-	  	if(nombApi != ""){
-  
-			let datos = new FormData();
-			datos.append("idConsulta", ultimoId);
-			datos.append("nombApi", nombApi);
-			datos.append("fechaInicio", fechaI);
-			datos.append("fechaFinal", fechaF);
-			datos.append("paginaInicio", pi);
-			datos.append("paginaFinal", pf);
-
-			$.ajax({
-
-				url:"ajax/cloudcore.ajax.php",
-				method: "POST",
-				data: datos,
-				cache: false,
-				contentType: false,
-				processData: false,
-				success:function(respuesta){
+		$("#dody").hide();
+		$("#loading").show();
 		
-					if(respuesta){
-						$("#dody").show();
-						$("#loading").hide();
-						actualizarDatosJsonCloudcore(ultimoId,respuesta,fechaI,fechaF,pi,pf);
-						console.log("[200] Token Cloudcore ok");
-					
-					}else{
+		ultimoId = parseInt(ultimoId);
+	
+			if(nombApi != ""){
+	
+				let datos = new FormData();
+				datos.append("idConsulta", ultimoId);
+				datos.append("nombApi", nombApi);
+				datos.append("fechaInicio", fechaI);
+				datos.append("fechaFinal", fechaF);
+				datos.append("paginaInicio", pi);
+				datos.append("paginaFinal", pf);
 
-						$("#dody").show();
-						$("#loading").hide();
-						console.log("[500] Token Cloudcore error");
+				$.ajax({
+
+					url:"ajax/cloudcore.ajax.php",
+					method: "POST",
+					data: datos,
+					cache: false,
+					contentType: false,
+					processData: false,
+					success:function(respuesta){
+
+						//console.log(respuesta);
+			
+						if(respuesta){
+							$("#dody").show();
+							$("#loading").hide();
+							actualizarDatosJsonCloudcore(ultimoId,nombApi,respuesta,fechaI,fechaF,fechaA,fechaS,numF,numS,pi,pf);
+							console.log("[Cloudcore] token [ok] ");
+						
+						}else{
+
+							$("#dody").show();
+							$("#loading").hide();
+							console.log("[Cloudcore] token [error] ");
+						}
+
 					}
 
-				}
-
-			});
-  
+				});
+	
+			}else{
+				console.log("[500] vacío");
+				return "error";
+			}
 		}else{
-			console.log("[500] vacío");
-			return "error";
-		}
-	}else{
-	  return "error";
+	return "error";
 	}
   
-	
-  
-	
-  
-	
 }
 
 
@@ -139,26 +152,33 @@ $(".tablaCloudcore").DataTable({
 VARIABLAS GLOBLALES
 =============================================*/
 
-let idConsultaCloudcore = $("#Cloudcore").attr("idCloudcore");
-let nombreApiCloudcore = $("#Cloudcore").attr('nombreApi');
-let fechaInicioCloudcore = $("#Cloudcore").attr('fechaInicio');
-let fechaFinalCloudcore = $("#Cloudcore").attr('fechaFinal');
-let paginaInicioCloudcore = $("#Cloudcore").attr('pi');
-let paginFinalCloudcore = $("#Cloudcore").attr('pf');
-let actulaizar1Cloudcore = $("#Cloudcore").attr('act1');
-let actulaizar2Cloudcore = $("#Cloudcore").attr('act2');
-
+let id_cloudcore = $("#Cloudcore").attr("idCloudcore");
+let nombre_cloudcore = $("#Cloudcore").attr('nombreApi');
+let fechaI_cloudcore = $("#Cloudcore").attr('fechaInicio');
+let fechaF_cloudcore = $("#Cloudcore").attr('fechaFinal');
+let activador_cloudcore = $("#Cloudcore").attr('act');
+let fechaActual_cloudcore = $("#Cloudcore").attr('fechaActual');
+let fechaSetTime_cloudcore = $("#Cloudcore").attr('setTime');
+let numConsulta_cloudcore = $("#Cloudcore").attr('consulta');
+let numSetTime_cloudcore = $("#Cloudcore").attr('valueSetTime');
+let paginaI_cloudcore = $("#Cloudcore").attr('pi');
+let paginaF_cloudcore = $("#Cloudcore").attr('pf');
 
 /*=============================================
 Inicializar funciciones
 =============================================*/
 
-if(idConsultaCloudcore != "" && nombreApiCloudcore != "" && fechaInicioCloudcore != "" && fechaFinalCloudcore != "" && paginaInicioCloudcore != "" && paginFinalCloudcore != "" && actulaizar1Cloudcore == "ok" && actulaizar2Cloudcore == "ok"){
-	solicitarTokenCloudcore(idConsultaCloudcore,nombreApiCloudcore,fechaInicioCloudcore,fechaFinalCloudcore,paginaInicioCloudcore,paginFinalCloudcore);
+
+if(id_cloudcore != "" && nombre_cloudcore == "Cloudcore" & fechaI_cloudcore != "" && fechaF_cloudcore != "" && fechaActual_cloudcore != "" && fechaSetTime_cloudcore != "" && activador_cloudcore == "ok"){
+
+	solicitarTokenCloudcore(id_cloudcore,nombre_cloudcore,fechaI_cloudcore,fechaF_cloudcore,fechaActual_cloudcore,fechaSetTime_cloudcore,numConsulta_cloudcore,numSetTime_cloudcore,paginaI_cloudcore,paginaF_cloudcore);
+
 }else{
-	$("#dody").show();
-	$("#loading").hide();
-	console.log("Esperando Fecha Cloudcore...");
+
+  $("#dody").show();
+  $("#loading").hide();
+  console.log("[Cloudcore] En espera...");
+
 }
 
 

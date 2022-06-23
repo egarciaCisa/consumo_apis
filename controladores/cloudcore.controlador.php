@@ -137,7 +137,7 @@ class ControladorCloudcore{
 
         if($respuesta == "ok"){
 
-            return $token;
+            return "ok";
 
         }else{
 
@@ -170,6 +170,13 @@ class ControladorCloudcore{
             }
 
         }
+
+		$tabla = "tab_cloudcore_consulta";
+        $item = "id";
+        $valor = $datos["idConsulta"];
+        $respuestaVista = ModeloCloudcore::mdlMostrarTablaConsultaCloudcore($tabla, $item, $valor);
+        $id = $datos["idConsulta"];
+        $array = array();
 
 
         $tabla = "tab_cloudcore_consulta";
@@ -225,7 +232,327 @@ class ControladorCloudcore{
 
         return $respuesta2;
 
+        //return $respuestaVista;
+
     }
+
+    /*=============================================
+	ACTUALISAT SETTIME Y FECHAS
+	=============================================*/
+
+	static public function ctrActualizarSetTime($nombre,$setTime,$dia){
+
+		$hora = ' 00:00:10';
+
+		$fecha = substr($setTime,0,-8);
+
+		$fechaSetTime = date('Y-m-d H:i:s', strtotime($fecha.' + '.$dia.' days'));
+		
+		$fechaSetTime = substr($fechaSetTime,0,-9).$hora;
+
+		$tabla = "tab_controlador";
+		$item1 = "nombreApi";
+		$valor1 = $nombre;
+		$item2 = "setTime";
+		$valor2 = $fechaSetTime;
+
+		return $actualizarGetTime = ModeloCloudcore::mdlAactualizarConsultaGetTime($tabla, $item1, $valor1, $item2, $valor2);
+		//return $valor2;
+
+	}
+
+    static public function ctrActualizarFechaFinal($nombre,$fechFinal,$consulta,$ok){
+
+		function verificarFecha($fechFinal,$Consulta,$ok){
+
+			$substr = substr($fechFinal,5,-3);
+			$intval = intval($substr);
+			$dato = strval($Consulta);
+			$añoSubstr = substr($fechFinal,0,-6);
+			$año = intval($añoSubstr);
+			$dia = '01';
+			$hora = ' 00:00:00';
+			$fechaInicio = '';
+			$fechaFinal = '';
+
+			//$respuesta = $año;
+	
+			if($Consulta == 0){
+	
+			   	if($ok == "ok"){
+
+					switch ($intval) {
+						case 1:
+		
+							$mesI = '-01-';
+							$mesF = '-02-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 2:
+		
+							$mesI = '-02-';
+							$mesF = '-03-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 3:
+		
+							$mesI = '-03-';
+							$mesF = '-04-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 4:
+		
+							$mesI = '-04-';
+							$mesF = '-05-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 5:
+		
+							$mesI = '-05-';
+							$mesF = '-06-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 6:
+		
+							$mesI = '-06-';
+							$mesF = '-07-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 7:
+		
+							$mesI = '-07-';
+							$mesF = '-08-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 8:
+		
+							$mesI = '-08-';
+							$mesF = '-09-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 9:
+		
+							$mesI = '-09-';
+							$mesF = '-10-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 10:
+		
+							$mesI = '-10-';
+							$mesF = '-11-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 11:
+		
+							$mesI = '-11-';
+							$mesF = '-12-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 12:
+		
+							$nuevo = ($año + 1);
+							$mesI = '-12-';
+							$mesF = '-01-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $nuevo.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+					
+					}
+		
+					$respuesta = $array; 
+
+			  	}else{
+
+
+					switch ($intval) {
+                        case 1:
+                            $diaMes = '31';
+                            break;
+                        case 2:
+                            $diaMes = '28';
+                            break;
+                        case 3:
+                            $diaMes = '31';
+                            break;
+                        case 4:
+                            $diaMes = '30';
+                            break;
+                        case 5:
+                            $diaMes = '31';
+                            break;
+                        case 6:
+                            $diaMes = '30';
+                            break;
+                        case 7:
+                            $diaMes = '31';
+                            break;
+                        case 8:
+                            $diaMes = '31';
+                            break;
+                        case 9:
+                            $diaMes = '30';
+                            break;
+                        case 10:
+                            $diaMes = '31';
+                            break;
+                        case 11:
+                            $diaMes = '30';
+                            break;
+                        case 12:
+                            $diaMes = '31';
+                            break;
+                        
+                    }
+
+
+
+					$fechaInicio = $fechFinal.' 00:00:00';
+					$getFecha = date('Y-m-d H:i:s', strtotime($fechaInicio.' + '.$diaMes.' days'));
+					$fechaFinal = substr($getFecha,0,-9).' 00:00:00';
+		
+					$array = array(
+						"fechaInicio"=>$fechaInicio,
+						"fechaFinal"=>$fechaFinal,
+					);
+		
+					$respuesta = $array;
+
+					
+
+				}   
+	
+			}else{
+	
+				$fechaInicio = $fechFinal.' 00:00:00';
+				$getFecha = date('Y-m-d H:i:s', strtotime($fechaInicio.' + '.$dato.' days'));
+				$fechaFinal = substr($getFecha,0,-9).' 00:00:00';
+	
+				$array = array(
+					"fechaInicio"=>$fechaInicio,
+					"fechaFinal"=>$fechaFinal,
+				);
+	
+				$respuesta = $array;
+	
+			}
+	
+			
+			return $array;
+		}
+	
+	
+		$fechas = verificarFecha($fechFinal,$consulta,$ok);
+		$tabla = "tab_controlador";
+		$item1 = "nombreApi";
+		$valor1 = $nombre;
+		$item2 = "fechaInicio";
+		$valor2 = $fechas["fechaInicio"];
+		$item3 = "fechaFinal";
+		$valor3 = $fechas["fechaFinal"];
+
+		return $respuesta = ModeloCloudcore::mdlAactualizarConsultafechas($tabla, $item1, $valor1, $item2, $valor2, $item3, $valor3);
+
+		//return $nombre.'-'.$fechFinal.'-'.$consulta.'-'.$ok.'-';
+
+		//return $valor1;
+		
+		//return verificarFecha($fechFinal,$consulta,$ok);
+	}
 
 	
 	

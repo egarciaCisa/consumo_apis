@@ -39,38 +39,80 @@ class AjaxCloudcore{
 
 
 	public $idConsulta;
+	public $nombreApi;
 	public $token;
 	public $fechaInicioJs;
 	public $fechaFinalJS;
 	public $paginaInicioJS;
 	public $paginaFinalJS;
+	public $fechaActualJs;
+	public $fechaSetTimeJS;
+	public $consultaJS;
+	public $valueSetJS;
 	
 	
 
 	public function ajaxInsertarDatos(){
+
+		$key = $this->token;
+		$nomAp = $this->nombreApi;
+		$fechI = $this->fechaInicioJs;
+		$fechF = $this->fechaFinalJS;
+		$fechA = $this->fechaActualJs;
+		$fechS = $this->fechaSetTimeJS;
+		$const = $this->consultaJS;
+		$value = $this->valueSetJS;
 		
 		$datos = array(
 			"idConsulta" => $this->idConsulta,
-			"token" => $this->token,
 			"fechaInicio" => $this->fechaInicioJs,
 			"fechaFinal" => $this->fechaFinalJS,
 			"paginaInicio" => $this->paginaInicioJS,
 			"paginaFinal" => $this->paginaFinalJS,
+			"fechaActual" => $this->fechaActualJs,
+			"fechaSetTime" => $this->fechaSetTimeJS,
+			"consulta" => $this->consultaJS,
+			"ValueSetTime" => $this->valueSetJS
 		);
 
-		
-		
-		var_dump($respuesta = ControladorCloudcore::crtRegistrosDataJson($datos));
+		//echo 'jolio';
+		//var_dump($datos);
+	
+		$respuesta = ControladorCloudcore::crtRegistrosDataJson($datos);
 
-		/*if($respuesta == "ok"){
+		if($respuesta == "ok"){
 
-			echo $respuesta;
+			$respuesta1 = ControladorCloudcore::ctrActualizarSetTime($nomAp,$fechA,$value);
+			$respuesta2 = ControladorCloudcore::ctrActualizarFechaFinal($nomAp,$fechF,$const,"ok");
+			
+			if($respuesta1 == "okGet" && $respuesta2 == "okFech"){
+			
+				echo "ok-si";
+			
+			}else{
+			
+				echo "error-1";
+			
+			}
+
+		
 
 		}else{
 
-			echo "error ajax";
+			$respuesta3 = ControladorCloudcore::ctrActualizarSetTime($nomAp,$fechA,$value);
+			$respuesta4 = ControladorCloudcore::ctrActualizarFechaFinal($nomAp,$fechI,$const,"nel");
 
-		}*/
+			if($respuesta3 == "okGet" && $respuesta4 == "okFech"){
+
+				echo "ok-no";
+
+			}else{
+
+				echo "error-2";
+
+			}
+
+		}
 
 	
 
@@ -101,15 +143,20 @@ if(isset($_POST["paginaInicio"])){
 RECIBIMOS JSON DE CONSULTA POR FECHA
 =============================================*/	
 
-if(isset($_POST["idConsulta"])){
+if(isset($_POST["token"])){
 
 	$request = new AjaxCloudcore();
 	$request -> idConsulta = $_POST["idConsulta"];
+	$request -> nombreApi = $_POST["nombreApi"];
 	$request -> token = $_POST["token"];
 	$request -> fechaInicioJs = $_POST["fechaInicio"];
 	$request -> fechaFinalJS = $_POST["fechaFinal"];
 	$request -> paginaInicioJS = $_POST["pagInicio"];
 	$request -> paginaFinalJS = $_POST["pagFinal"];
+	$request -> fechaActualJs = $_POST["fechaActual"];
+	$request -> fechaSetTimeJS = $_POST["fechaSetTime"];
+	$request -> consultaJS = $_POST["consulta"];
+	$request -> valueSetJS = $_POST["ValueSetTime"];
 	$request -> ajaxInsertarDatos();
 
 }

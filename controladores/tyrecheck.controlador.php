@@ -403,182 +403,320 @@ class ControladorTyrecheck{
 
 	}
 
+	/*=============================================
+	ACTUALISAT SETTIME Y FECHAS
+	=============================================*/
 
+	static public function ctrActualizarSetTime($nombre,$setTime,$dia){
 
+		$hora = ' 00:00:10';
 
+		$fecha = substr($setTime,0,-8);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	static public function ctrInicializarConsultaApi($fechaInicio,$fechaFinal,$nombre,$ultimoRegistro){
-
-		$validacion = null;
-		$mensjae = null;
-
-		$curl = curl_init();
-
-		curl_setopt_array($curl, array(
-		CURLOPT_URL => 'https://portal.test.tyrecheck.com/api/token',
-		CURLOPT_RETURNTRANSFER => true,
-		CURLOPT_ENCODING => '',
-		CURLOPT_MAXREDIRS => 10,
-		CURLOPT_TIMEOUT => 0,
-		CURLOPT_FOLLOWLOCATION => true,
-		CURLOPT_CUSTOMREQUEST => 'POST',
-		CURLOPT_POSTFIELDS => 'grant_type=password&username=andres.rodriguez&password=a%40000000',
-		CURLOPT_HTTPHEADER => array(
-			'Content-Type: application/x-www-form-urlencoded'
-		),
-		));
-
-		$response = curl_exec($curl);
-
-		if($response){
-			echo '<script>console.log("[200 token]")</script>';
-		}else{
-			echo '<script>console.log("[400 token]")</script>';
-		}
-
-
-		$token = null;
-		$datos = null;
-
-	
-
-		curl_close($curl);
-
-		$json = json_decode($response,true);
-		$array = array($json);
-
-		echo '<script>console.log("'.$token.'")</script>';
-
-
-		foreach ($array as $key => $value) {
-			$token = $value["access_token"];
-		}
-
-		if($token != null){
-
-			$datos = array("nombreApi" => $nombre,
-						"token" => $token,
-						"estado" => 200,
-						"dataJson" => "",
-						"fechaInicio" => $fechaInicio,
-						"fechaFinal" => $fechaFinal);
-
-		}else{
-
-			$datos = array("nombreApi" => $nombre,
-						"token" => "null",
-						"estado" => 400,
-						"dataJson" => "",
-						"fechaInicio" => $fechaInicio,
-						"fechaFinal" => $fechaFinal);
-
-		}
-
-
-		$tabla = "consulta";
-		$respuesta = ModeloTyrecheck::mdlGuardarTabConsultaTyrecheck($tabla, $datos);
-
-		if($respuesta == "ok" && $token != null){
-
-
-			$validacion = ModeloTyrecheck::mdlMostrarTablaConsultaTyrecheck($tabla, "token", $token);
-
-			if($validacion["token"] != "null"){
-
-				$mensaje = array("id" => $ultimoRegistro,
-								"token" => $token,
-								"fechaInicio" => $fechaInicio,
-								"fechaFinal" => $fechaFinal);		
-
-			}else{
-
-				$mensaje = array("id" => "",
-								"token" => "",
-								"fechaInicio" => "",
-								"fechaFinal" => "");
-				
-			}
-			
-		}else{
-			
-		}
+		$fechaSetTime = date('Y-m-d H:i:s', strtotime($fecha.' + '.$dia.' days'));
 		
+		$fechaSetTime = substr($fechaSetTime,0,-9).$hora;
 
-		return $mensaje;
+		$tabla = "tab_controlador";
+		$item1 = "nombreApi";
+		$valor1 = $nombre;
+		$item2 = "setTime";
+		$valor2 = $fechaSetTime;
+
+		return $actualizarGetTime = ModeloTyrecheck::mdlAactualizarConsultaGetTime($tabla, $item1, $valor1, $item2, $valor2);
+		//return $valor2;
 
 	}
+
+	static public function ctrActualizarFechaFinal($nombre,$fechFinal,$consulta,$ok){
+
+		function verificarFecha($fechFinal,$Consulta,$ok){
+
+			$substr = substr($fechFinal,5,-3);
+			$intval = intval($substr);
+			$dato = strval($Consulta);
+			$añoSubstr = substr($fechFinal,0,-6);
+			$año = intval($añoSubstr);
+			$dia = '01';
+			$hora = ' 00:00:00';
+			$fechaInicio = '';
+			$fechaFinal = '';
+
+			//$respuesta = $año;
+	
+			if($Consulta == 0){
+	
+			   	if($ok == "ok"){
+
+					switch ($intval) {
+						case 1:
+		
+							$mesI = '-01-';
+							$mesF = '-02-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 2:
+		
+							$mesI = '-02-';
+							$mesF = '-03-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 3:
+		
+							$mesI = '-03-';
+							$mesF = '-04-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 4:
+		
+							$mesI = '-04-';
+							$mesF = '-05-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 5:
+		
+							$mesI = '-05-';
+							$mesF = '-06-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 6:
+		
+							$mesI = '-06-';
+							$mesF = '-07-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 7:
+		
+							$mesI = '-07-';
+							$mesF = '-08-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 8:
+		
+							$mesI = '-08-';
+							$mesF = '-09-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 9:
+		
+							$mesI = '-09-';
+							$mesF = '-10-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 10:
+		
+							$mesI = '-10-';
+							$mesF = '-11-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 11:
+		
+							$mesI = '-11-';
+							$mesF = '-12-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $año.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+						case 12:
+		
+							$nuevo = ($año + 1);
+							$mesI = '-12-';
+							$mesF = '-01-';
+		
+							$fechaInicio = $año.$mesI.$dia.$hora;
+							$fechaFinal = $nuevo.$mesF.$dia.$hora;
+		
+							$array = array(
+								"fechaInicio"=>$fechaInicio,
+								"fechaFinal"=>$fechaFinal
+							);
+		
+							break;
+					
+					}
+		
+					$respuesta = $array; 
+
+			  	}else{
+
+
+					switch ($intval) {
+                        case 1:
+                            $diaMes = '31';
+                            break;
+                        case 2:
+                            $diaMes = '28';
+                            break;
+                        case 3:
+                            $diaMes = '31';
+                            break;
+                        case 4:
+                            $diaMes = '30';
+                            break;
+                        case 5:
+                            $diaMes = '31';
+                            break;
+                        case 6:
+                            $diaMes = '30';
+                            break;
+                        case 7:
+                            $diaMes = '31';
+                            break;
+                        case 8:
+                            $diaMes = '31';
+                            break;
+                        case 9:
+                            $diaMes = '30';
+                            break;
+                        case 10:
+                            $diaMes = '31';
+                            break;
+                        case 11:
+                            $diaMes = '30';
+                            break;
+                        case 12:
+                            $diaMes = '31';
+                            break;
+                        
+                    }
+
+
+
+					$fechaInicio = $fechFinal.' 00:00:00';
+					$getFecha = date('Y-m-d H:i:s', strtotime($fechaInicio.' + '.$diaMes.' days'));
+					$fechaFinal = substr($getFecha,0,-9).' 00:00:00';
+		
+					$array = array(
+						"fechaInicio"=>$fechaInicio,
+						"fechaFinal"=>$fechaFinal,
+					);
+		
+					$respuesta = $array;
+
+					
+
+				}   
+	
+			}else{
+	
+				$fechaInicio = $fechFinal.' 00:00:00';
+				$getFecha = date('Y-m-d H:i:s', strtotime($fechaInicio.' + '.$dato.' days'));
+				$fechaFinal = substr($getFecha,0,-9).' 00:00:00';
+	
+				$array = array(
+					"fechaInicio"=>$fechaInicio,
+					"fechaFinal"=>$fechaFinal,
+				);
+	
+				$respuesta = $array;
+	
+			}
+	
+			
+			return $respuesta;
+		}
 	
 	
+		$fechas = verificarFecha($fechFinal,$consulta,$ok);
+		$tabla = "tab_controlador";
+		$item1 = "nombreApi";
+		$valor1 = $nombre;
+		$item2 = "fechaInicio";
+		$valor2 = $fechas["fechaInicio"];
+		$item3 = "fechaFinal";
+		$valor3 = $fechas["fechaFinal"];
+
+		return $respuesta = ModeloTyrecheck::mdlAactualizarConsultafechas($tabla, $item1, $valor1, $item2, $valor2, $item3, $valor3);
+		
+		//return verificarFecha($fechFinal,$consulta);
+	}
+
 
 	static public function ctrMostrarConsulta($item, $valor){
 

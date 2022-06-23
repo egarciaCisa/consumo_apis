@@ -2,7 +2,9 @@
 CONTOLADORES DATOS JSON
 =============================================*/
 
-function solicitarTotalDeDatosJson(ultimoId,token,fechaI,fechaF) {
+function solicitarTotalDeDatosJson(ultimoId,token,fechaI,fechaF,fechaA,fechaS,numA,numS,nombre) {
+
+  
 
     let myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer "+token);
@@ -17,7 +19,7 @@ function solicitarTotalDeDatosJson(ultimoId,token,fechaI,fechaF) {
     .then(response => response.json())
     .then(json => {
 
-      console.log(json);
+      //console.log(json);
      
       json = JSON.stringify(json);
   
@@ -27,10 +29,15 @@ function solicitarTotalDeDatosJson(ultimoId,token,fechaI,fechaF) {
   
       let datos = new FormData();
       datos.append("idConsulta", ultimoId);
+      datos.append("nombreApi", nombre);
       datos.append("json", datosJson);
       datos.append("token", token);
       datos.append("fechaInicio", fechaI);
       datos.append("fechaFinal", fechaF);
+      datos.append("fechaActual", fechaA);
+      datos.append("fechaSetTime", fechaS);
+      datos.append("consulta", numA);
+      datos.append("ValueSetTime", numS);
 
       $.ajax({
   
@@ -42,21 +49,28 @@ function solicitarTotalDeDatosJson(ultimoId,token,fechaI,fechaF) {
         processData: false,
         success:function(respuesta){
 
+          //console.log(respuesta);
+
           if(respuesta == "ok"){
 
-              console.log("[200] Registros Tyrecheck ",respuesta);
+              console.log("[Tyrocheck] Registros [cargado] / setTime [ok]  ");
               $("#loading").hide();
               $("#dody").show();
               //window.location = "index.php?pagina=tyrecheck";
-              return "ok";
                      
+          }else if(respuesta == "ok-no"){
+
+              console.log("[Tyrocheck] Registros [vacio] / setTime [ok] ");
+              $("#loading").hide();
+              $("#dody").show();
+              //window.location = "index.php?pagina=tyrecheck";
+
           }else{
 
-            console.log("[500] Registros Tyrecheck ",respuesta);
-            $("#loading").hide();
-            $("#dody").show();
-            //window.location = "index.php?pagina=tyrecheck";
-            return "error";
+              console.log("[Tyrocheck] Registros [error] / setTime [error] ");
+              $("#loading").hide();
+              $("#dody").show();
+              //window.location = "index.php?pagina=tyrecheck";
 
           }
   
@@ -78,7 +92,7 @@ function solicitarTotalDeDatosJson(ultimoId,token,fechaI,fechaF) {
 FUNCION PARA SOLICITAR TOKEN
 =============================================*/
 
-function solicitarTokenTirechek(ultimoId,nombApi,fechaI,fechaF) {
+function solicitarTokenTirechek(ultimoId,nombApi,fechaI,fechaF,$fechaActual,$fechaSetTime,numconsulta,numSeTtime) {
 
   if(ultimoId){
     
@@ -125,16 +139,18 @@ function solicitarTokenTirechek(ultimoId,nombApi,fechaI,fechaF) {
             contentType: false,
             processData: false,
             success:function(respuesta){
+
+              
     
               if(respuesta){
                 $("#dody").hide();
                 $("#loading").show();
 
-                console.log("[200] Token Tyrocheck ok");
-                solicitarTotalDeDatosJson(ultimoId,respuesta,fechaI,fechaF);
+                console.log("[Tyrocheck] Token [ok]");
+                solicitarTotalDeDatosJson(ultimoId,respuesta,fechaI,fechaF,$fechaActual,$fechaSetTime,numconsulta,numSeTtime,nombApi);
                   
               }else{
-                  console.log("[500] Token Tyrocheck error");
+                  console.log("[Tyrocheck] Token [error]");
               }
   
             }
@@ -203,28 +219,36 @@ $(".tablaAautentificacion").DataTable({
 VARIABLAS GLOBLALES
 =============================================*/
 
-let idConsulta = $("#Tyrecheck").attr("idTyrecheck");
-let nombreApi = $("#Tyrecheck").attr('nombreApi');
-let fechaInicio = $("#Tyrecheck").attr('fechaInicio');
-let fechaFinal = $("#Tyrecheck").attr('fechaFinal');
-let actulaizar1 = $("#Tyrecheck").attr('act1');
-let actulaizar2 = $("#Tyrecheck").attr('act2');
+let id_tyrecheck = $("#Tyrecheck").attr("idTyrecheck");
+let nombre_tyrecheck = $("#Tyrecheck").attr('nombreApi');
+let fechaI_tyrecheck = $("#Tyrecheck").attr('fechaInicio');
+let fechaF_tyrecheck = $("#Tyrecheck").attr('fechaFinal');
+let activador_tyrocheck = $("#Tyrecheck").attr('act');
+let fechaActual_tyrocheck = $("#Tyrecheck").attr('fechaActual');
+let fechaSetTime_tyrocheck = $("#Tyrecheck").attr('setTime');
+let numConsulta_tyrocheck = $("#Tyrecheck").attr('consulta');
+let numSetTime_tyrocheck = $("#Tyrecheck").attr('valueSetTime');
+let paginaI_tyrecheck = $("#Tyrecheck").attr('pi');
+let paginaF_tyrecheck = $("#Tyrecheck").attr('pf');
 
 /*=============================================
 Inicializar funciciones
 =============================================*/
 
 
-if(idConsulta != "" && nombreApi != "" & fechaInicio != "" && fechaFinal != "" && actulaizar1 == "ok" && actulaizar2 == "ok"){
 
-  solicitarTokenTirechek(idConsulta,nombreApi,fechaInicio,fechaFinal);
+
+
+if(id_tyrecheck != "" && nombre_tyrecheck == "Tyrecheck" & fechaI_tyrecheck != "" && fechaF_tyrecheck != "" && fechaActual_tyrocheck != "" && fechaSetTime_tyrocheck != "" && activador_tyrocheck == "ok"){
+
+  solicitarTokenTirechek(id_tyrecheck,nombre_tyrecheck,fechaI_tyrecheck,fechaF_tyrecheck,fechaActual_tyrocheck,fechaSetTime_tyrocheck,numConsulta_tyrocheck,numSetTime_tyrocheck);
 
 
 }else{
 
   $("#dody").show();
   $("#loading").hide();
-  console.log("Esperando Fecha...");
+  console.log("[Tyrocheck] En espera...");
 
 }
 
@@ -233,7 +257,7 @@ Inicializar funciciones
 =============================================*/
 
 
-const d = document;
+/*const d = document;
 let countdown = $('#Tyrecheck').attr('setTime');
 
       //console.log(countdown);
@@ -246,12 +270,12 @@ let countdown = $('#Tyrecheck').attr('setTime');
             hours = ("0"+Math.floor(limitTime % (1000*60*60*24)/(1000*60*60))).slice(-2),
             minutes = ("0"+Math.floor(limitTime % (1000*60*60)/(1000*60))).slice(-2),
             seconds = ("0"+Math.floor(limitTime % (1000*60)/(1000))).slice(-2);
-            console.log(days, hours, minutes, seconds);
+            //console.log(days, hours, minutes, seconds);
             if(limitTime < 0){
                 clearInterval(countdownTempo);
                 window.location = "index.php?pagina=tyrecheck";
             }
-      },1000);
+      },1000);*/
 
 
 

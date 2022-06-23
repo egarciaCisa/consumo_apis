@@ -422,13 +422,7 @@ Modal Crear Administrador
 
               <option value="1">Consulta por 1 día</option>
 
-              <option value="2">Consulta por 2 dís</option>
-
-              <option value="3">Consulta por 3 dís</option>
-
-              <option value="7">Consulta por 7 dís</option>
-
-              <option value="15">Consulta por 15 dís</option>
+              <option value="0">Consulta por mes</option>
 
             </select> 
 
@@ -449,13 +443,11 @@ Modal Crear Administrador
 
               <option value="1">Resetear por 1 día</option>
 
-              <option value="2">Resetear por 2 días</option>
-
-              <option value="3">Resetear por 3 días</option>
-
               <option value="7">Resetear por 7 días</option>
 
               <option value="15">Resetear por 15 días</option>
+
+              <option value="30">Resetear por 30 días</option>
 
             </select> 
 

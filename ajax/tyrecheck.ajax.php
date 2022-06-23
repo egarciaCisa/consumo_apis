@@ -34,7 +34,14 @@ class AjaxTyrecheck{
 
 	public $json;
 	public $idConsulta;
+	public $nombreApi;
 	public $token;
+	public $fechaInicio;
+	public $fechaFinal;
+	public $fechaActual;
+	public $fechaSetTime;
+	public $consulta;
+	public $valueSetTime;
 
 	public function ajaxInsertarDatos(){
 
@@ -44,6 +51,15 @@ class AjaxTyrecheck{
 		$item2 = "dataJson";
 		$valor2 = $this->json;
 		$key = $this->token;
+		$nomAp = $this->nombreApi;
+		$fechI = $this->fechaInicio;
+		$fechF = $this->fechaFinal;
+		$fechA = $this->fechaActual;
+		$fechS = $this->fechaSetTime;
+		$const = $this->consulta;
+		$value = $this->valueSetTime;
+
+
 
 		$respuesta = ModeloTyrecheck:: mdlActualizarAutentificacion($tabla, $item1, $valor1, $item2, $valor2);	
 
@@ -60,17 +76,42 @@ class AjaxTyrecheck{
 					$respuesta4 = ControladorTyrecheck::ctrGuardarTablaTirecheckMeasurementsYObservations($valor1);
 
 					if($respuesta4){
-						echo "ok";
+
+						$respuesta5 = ControladorTyrecheck::ctrActualizarSetTime($nomAp,$fechA,$value);
+						$respuesta6 = ControladorTyrecheck::ctrActualizarFechaFinal($nomAp,$fechF,$const,"ok");
+						
+						if($respuesta5 == "okGet" && $respuesta6 == "okFech"){
+						
+							echo "ok";
+						
+						}else{
+						
+							echo "error-1";
+						
+						}
+						
 					}else{
-						echo "error";
+
+						$respuesta7 = ControladorTyrecheck::ctrActualizarSetTime($nomAp,$fechA,$value);
+						$respuesta8 = ControladorTyrecheck::ctrActualizarFechaFinal($nomAp,$fechI,$const,"nel");
+
+						if($respuesta7 == "okGet" && $respuesta8 == "okFech"){
+
+							echo "ok-no";
+
+						}else{
+
+							echo "error-2";
+
+						}
 					}
+					
 
 				}else{
 
 					echo "error";
 
 				}
-		
 			}else{
 
 				echo "error";
@@ -84,7 +125,7 @@ class AjaxTyrecheck{
 		}
 		
 		
-
+		//echo $this->valueSetTime;
    
 		
 
@@ -117,10 +158,15 @@ if(isset($_POST["json"])){
 
 	$request = new AjaxTyrecheck();
 	$request -> idConsulta = $_POST["idConsulta"];
+	$request -> nombreApi = $_POST["nombreApi"];
 	$request -> json = $_POST["json"];
 	$request -> token = $_POST["token"];
 	$request -> fechaInicio = $_POST["fechaInicio"];
 	$request -> fechaFinal = $_POST["fechaFinal"];
+	$request -> fechaActual = $_POST["fechaActual"];
+	$request -> fechaSetTime = $_POST["fechaSetTime"];
+	$request -> consulta = $_POST["consulta"];
+	$request -> valueSetTime = $_POST["ValueSetTime"];
 	$request -> ajaxInsertarDatos();
 
 }
