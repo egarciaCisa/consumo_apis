@@ -25,7 +25,6 @@ class TablaAutentificacion{
 
 		}
 
-	
 
 		$datosJson = '{
 	
@@ -33,16 +32,42 @@ class TablaAutentificacion{
 
 		foreach ($respuesta as $key => $value) {
 
-			
-			if($value["dataJson"] == ""){
+			$nombreApi = "<div class='btn-group flex-center'>".$value["nombreApi"]."</div>";
+			$respuesta = "<div class='btn-group flex-center'>".$value["estado"]."</div>";
 
-				$acciones2 = "<div class='btn-group float-right'><i class='fas fa-circle' style='font-size:30px;color:red;'></i></div>";
+			if($value["token"] != ""){
+
+				$token = "<div class='btn-group flex-center'><a class='btn btn-success btn-sm text-white' >Token <i class='fas fa-check-circle ml-1'></i></a></div>";
 
 			}else{
 
-				$acciones2 = "<div class='btn-group float-right'><i class='fas fa-circle' style='font-size:30px;color:green;'></i></div>";
+				$token = "<div class='btn-group flex-center'><a class='btn btn-success btn-sm text-white' >Token <i class='fas fa-ban ml-1'></i></a></div>";
 
 			}
+
+			$fechasConsulta = "<div class='btn-group flex-center'>".$value["fechaInicio"]." - ".$value["fechaFinal"]."</div>";
+
+			
+			if($value["dataJson"] == '{"qty":null,"items":[]}'){
+
+				$esados = "<div class='btn-group flex-center'><i class='fas fa-circle mr-2' style='font-size:20px;color:#2ECC71'></i><i class='fas fa-circle' style='font-size:20px;color:#99A3A4;'></i></div>";
+
+			}else if($value["dataJson"] != ''){
+
+				$esados = "<div class='btn-group flex-center'><i class='fas fa-circle mr-2' style='font-size:20px;color:#2ECC71'></i><i class='fas fa-circle' style='font-size:20px;color:#2ECC71'></i></div>";
+
+			}else{
+
+				$esados = "<div class='btn-group flex-center'><i class='fas fa-circle mr-2' style='font-size:20px;color:#2ECC71'></i><i class='fas fa-circle' style='font-size:20px;color:#C0392B'></i></div>";
+
+			}
+
+			$dato = json_decode($value["dataJson"],true);
+
+			$lipiar = count($dato["items"]);
+			
+			$consulta = "<div class='btn-group flex-center'>(".$lipiar.")</div>";
+
 
 			if($value["dataJson"] != ""){
 
@@ -53,23 +78,21 @@ class TablaAutentificacion{
 				$acciones3 = 400;
 
 			}
+
+			
+
 	
-			
-
-
-
-			
-
-			$acciones = "<div class='btn-group'><a class='btn btn-primary btn-sm text-white' href='index.php?pagina=consultaTyrecheck&id=".($value["id"]-1)."' idUsuario='".$value["id"]."'>Ver Json <i class='fas fa-eye '></i></a></div>";
+			$acciones = "<div class='btn-group flex-center'><a class='btn btn-primary btn-sm text-white' href='index.php?pagina=consultaTyrecheck&id=".$value["id"]."' idUsuario='".$value["id"]."'>Ver consulta <i class='fas fa-code ml-1'></i></a></div>";
 			
 			$datosJson .='[
 						"'.($key+1).'",
-						"'.$value["nombreApi"].' '.$acciones2.'",
-						"'.$value["token"].'",
-						"'.$acciones3.'",
-						"'.$value["fechaFinal"].'",
-						"'.$acciones.'",
-						""
+						"'.$nombreApi.'",
+						"'.$respuesta.'",
+						"'.$token.'",
+						"'.$fechasConsulta.'",
+						"'.$consulta.'",
+						"'.$esados.'",
+						"'.$acciones.'"
 						],';
 
 		}

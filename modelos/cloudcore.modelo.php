@@ -104,7 +104,7 @@ class ModeloCloudcore{
 
 	static public function mdlGuardarTablaCloudcoreDataJson1($tabla, $datos){
 
-		$bandera = null;
+	
 
         for ($i=0; $i < count($datos); $i++) { 
 
@@ -140,24 +140,18 @@ class ModeloCloudcore{
 
             if($stmt->execute()){
 
-				$bandera = true;
+			
 
             }else{
 
                 echo "\nPDO::errorInfo():\n";
                 print_r(Conexion::conectar()->errorInfo());
             
-            }
-
-			if($bandera == true){
-				return "ok";
-			}else{
-				return "nel";
-			}
+            }	
 
         }
      
-        
+		return "ok";
 
 		$stmt->close();
 		$stmt = null;
@@ -220,6 +214,6 @@ class ModeloCloudcore{
 		$stmt = null;
 
 	}
-	
+
 
 }

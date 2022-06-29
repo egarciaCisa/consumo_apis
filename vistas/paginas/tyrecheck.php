@@ -1,9 +1,6 @@
 <?php
 
 
-
-
-
   
 ?>
 
@@ -17,9 +14,12 @@
 
         <div class="col-sm-6">
 
-          <h1 id="tiempo">Consulta de api <?php echo $nombre_tyrecheck?></h1>
+          <h1 id="tiempo" style="text-transform: uppercase;">RESGISTROS </h1>
 
-          <div id="countdown2"></div>
+          <?php
+
+
+          ?>
 
         </div>
 
@@ -27,8 +27,8 @@
 
           <ol class="breadcrumb float-sm-right">
 
-            <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-            <li class="breadcrumb-item active">Registros</li>
+            <li class="breadcrumb-item"><a href="inicio">INICIO</a></li>
+            <li class="breadcrumb-item active">REGISTROS</li>
 
           </ol>
 
@@ -50,11 +50,23 @@
 
           <div class="card card-info card-outline">
 
-            <div class="card-header">
+            <div class="card-header flex-center" >
+        
+              <div class='countdown' reset="<?php echo $fechaCountdown_Tyrecheck["setTime"]; ?>"></div>
+              <div class="col-sm-9 pl-3">
+                <?php
 
-            <div class='countdown' reset="<?php echo $fechaCountdown_Tyrecheck["setTime"]; ?>"></div>
+                    echo'<h6 class="mt-1"><strong>Api:</strong> '.$nombre_tyrecheck.'</h6>
+                        <h6 class="mt-1"><strong>Registros Totales:</strong> '.count($numTabConsultaTyrecheck).'</h6>
+                        <h6><strong>Registro Total: :</strong> '.count($numTabMesurementsTyrecheck).' Measurements</h6>
+                        <h6><strong>Registro Total :</strong> '.count($numTabObservationsTyrecheck).' Observations</h6>';
+
+                ?>
+              </div>
 
             </div>
+
+
 
             <div class="card-body">
               
@@ -62,14 +74,16 @@
                 
                 <thead>
                   
-                  <tr>
+                  <tr class="text-center">
                     
                     <th style="width:10px">#</th>
-                    <th>Nombre de la Api</th>
+                    <th>Proveedor</th>
+                    <th>Respuesta</th>
                     <th>Token</th>
-                    <th>Estado</th>
-                    <th>Fecha Final</th>
-                    <th>DataJson</th>
+                    <th>Fechas consultadas</th>
+                    <th>Registros</th>
+                    <th>Consulta</th>
+                    <th>Datos JSON</th>
                   </tr>
 
                 </thead>

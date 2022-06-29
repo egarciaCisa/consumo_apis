@@ -9,17 +9,13 @@ $htacces = "index.php?pagina=";
 //controladores Tyrecheck
 $ultimoRegistro_Tyrecheck = ControladorTyrecheck::ctrMostrarConsulta(null,null);
 $ultimoRegistro_Tyrecheck = (count($ultimoRegistro_Tyrecheck));
-if($ultimoRegistro_Tyrecheck == 0){
-	$ultimoRegistro_Tyrecheck = 1;
-}
+$ultimoRegistro_Tyrecheck = $ultimoRegistro_Tyrecheck+1;
 $nombre_tyrecheck = "Tyrecheck";
 $fechaCountdown_Tyrecheck = ControladorInicio::ctrMostrarConsultaControlador("nombreApi",$nombre_tyrecheck);
 
 $ultimoRegistro_Cloudcore = ControladorCloudcore::ctrMostrarConsulta(null,null);
 $ultimoRegistro_Cloudcore = (count($ultimoRegistro_Cloudcore));
-if($ultimoRegistro_Tyrecheck == 0){
-	$ultimoRegistro_Tyrecheck = 1;
-}
+$ultimoRegistro_Cloudcore = $ultimoRegistro_Cloudcore+1;
 $nombre_cloudcore = "Cloudcore";
 $fechaBaseDatos_Cloudcore = ControladorInicio::ctrMostrarConsultaControlador("nombreApi",$nombre_cloudcore);
 
@@ -33,22 +29,22 @@ $controlador = ControladorInicio::ctrMostrarConsultaControlador(null,null);
 
 function actualizarConsultaGetTime($fechaActual,$setTime){
 
-	if ($fechaActual >= $setTime){
+	if ($setTime <= $fechaActual){
 
-		return "ok";
+		//echo '<script>alert("SetTie menor");</script>';
 
+		return "nel";
 
 	}else{
+
+		//echo '<script>alert("SetTie mayor");</script>';
 		
-		return "nel";
+		return "ok";
 	}
 
 
 }
-
 if($controlador){
-
-	
 
 	foreach ($controlador as $key => $value) {
 
@@ -71,6 +67,17 @@ if($controlador){
 }else{
 
 	$arrayTime[$key] = array(
+			"actualizar" => "null",
+			"setTime" => "null",
+			"fechaInicio" => "null",
+			"fechaFinal" => "null",
+			"consulta" => "null",
+			"valueSetTime" => "null",
+			"paginaInicio" => "null",
+			"paginaFinal" => "null",
+			"nombreApi" => "null",
+			"idTyrecheck" => "null",
+			"idCloudcore" => "null"
 	);
 
 }
@@ -85,11 +92,20 @@ if($fechaBaseDatos_Tyrecheck > $fechaActual){
 }
 
 
+$numTabConsultaTyrecheck = ControladorTyrecheck::ctrConsultaTyrechekDataJoson(null,null);
+$numTabMesurementsTyrecheck = ControladorTyrecheck::ctrConsultaTyrechekMeasurements(null,null);
+$numTabObservationsTyrecheck = ControladorTyrecheck::ctrConsultaTyrechekObservations(null,null);
+$numTabConsulta_Cloudcore = ControladorCloudcore::ctrConsultaCloudcore(null,null);
+$numTabConsultaDataJson_Cloudcore = ControladorCloudcore::ctrConsultaCloudcoreDataJoson(null,null);
+
+
 if(isset($_SESSION["idBackend"])){
 
 	$admin = ControladorAdministradores::ctrMostrarAdministradores("id", $_SESSION["idBackend"]);
 
 }
+
+//echo  '<script>alert("ok");</script>';
 
 ?>
 
@@ -225,6 +241,29 @@ if(isset($_SESSION["idBackend"])){
 
 	include "paginas/login.php";
 
+	if(count($arrayTime) != 0){
+
+		foreach ($arrayTime as $key => $value) {
+
+			echo '<input type="hidden" act="'.$value["actualizar"].'" idTyrecheck="'.$value["idTyrecheck"].'" idCloudcore="'.$value["idCloudcore"].'" nombreApi="'.$value["nombreApi"].'" fechaInicio="'.$value["fechaInicio"].'" fechaFinal="'.$value["fechaFinal"].'" setTime="'.$value["setTime"].'" fechaActual="'.$fechaActual.'" consulta="'.$value["consulta"].'" valueSetTime="'.$value["valueSetTime"].'" pi="'.$value["paginaInicio"].'" pf="'.$value["paginaFinal"].'" id="'.$value["nombreApi"].'" >';
+
+		}
+
+	}else{
+
+
+	}
+
+	echo '	<script src="vistas/js/main.js" type="module"></script>
+
+			<script src="vistas/js/consulta.js"></script>
+
+			<script src="vistas/js/administradores.js"></script>
+
+			<script src="vistas/js/tyrecheck.js"></script>
+
+			<script src="vistas/js/cloudcore.js"></script>';
+
 ?>
 
 <?php else: ?>
@@ -250,40 +289,6 @@ if(isset($_SESSION["idBackend"])){
 
 
 		}
-
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="5" idCloudcore="0" nombreApi="Tyrecheck" fechaInicio="2022-05-01" fechaFinal="2022-05-31" setTime="'.$fechaActual.'" pi="0" pf="0" id="Tyrecheck">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="125" nombreApi="Cloudcore" fechaInicio="2022-06-04" fechaFinal="2022-06-05" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="123" nombreApi="Cloudcore" fechaInicio="2022-05-02" fechaFinal="2022-05-03" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="124" nombreApi="Cloudcore" fechaInicio="2022-05-03" fechaFinal="2022-05-04" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="125" nombreApi="Cloudcore" fechaInicio="2022-05-04" fechaFinal="2022-05-05" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="126" nombreApi="Cloudcore" fechaInicio="2022-05-05" fechaFinal="2022-05-06" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="127" nombreApi="Cloudcore" fechaInicio="2022-05-06" fechaFinal="2022-05-07" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="128" nombreApi="Cloudcore" fechaInicio="2022-05-07" fechaFinal="2022-05-08" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="129" nombreApi="Cloudcore" fechaInicio="2022-05-08" fechaFinal="2022-05-09" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="130" nombreApi="Cloudcore" fechaInicio="2022-05-09" fechaFinal="2022-05-10" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="131" nombreApi="Cloudcore" fechaInicio="2022-05-10" fechaFinal="2022-05-11" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="132" nombreApi="Cloudcore" fechaInicio="2022-05-11" fechaFinal="2022-05-12" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="133" nombreApi="Cloudcore" fechaInicio="2022-05-12" fechaFinal="2022-05-13" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="134" nombreApi="Cloudcore" fechaInicio="2022-05-13" fechaFinal="2022-05-14" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="135" nombreApi="Cloudcore" fechaInicio="2022-05-14" fechaFinal="2022-05-15" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="136" nombreApi="Cloudcore" fechaInicio="2022-05-15" fechaFinal="2022-05-16" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="137" nombreApi="Cloudcore" fechaInicio="2022-05-16" fechaFinal="2022-05-17" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="138" nombreApi="Cloudcore" fechaInicio="2022-05-17" fechaFinal="2022-05-18" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="139" nombreApi="Cloudcore" fechaInicio="2022-05-18" fechaFinal="2022-05-19" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="140" nombreApi="Cloudcore" fechaInicio="2022-05-19" fechaFinal="2022-05-20" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="141" nombreApi="Cloudcore" fechaInicio="2022-05-20" fechaFinal="2022-05-21" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="142" nombreApi="Cloudcore" fechaInicio="2022-05-21" fechaFinal="2022-05-22" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="143" nombreApi="Cloudcore" fechaInicio="2022-05-22" fechaFinal="2022-05-23" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="144" nombreApi="Cloudcore" fechaInicio="2022-05-23" fechaFinal="2022-05-24" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="145" nombreApi="Cloudcore" fechaInicio="2022-05-24" fechaFinal="2022-05-25" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="146" nombreApi="Cloudcore" fechaInicio="2022-05-25" fechaFinal="2022-05-26" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="147" nombreApi="Cloudcore" fechaInicio="2022-05-26" fechaFinal="2022-05-27" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="148" nombreApi="Cloudcore" fechaInicio="2022-05-27" fechaFinal="2022-05-28" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="149" nombreApi="Cloudcore" fechaInicio="2022-05-28" fechaFinal="2022-05-01" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="150" nombreApi="Cloudcore" fechaInicio="2022-05-29" fechaFinal="2022-05-30" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="151" nombreApi="Cloudcore" fechaInicio="2022-05-30" fechaFinal="2022-05-31" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-			//echo '<input type="hidden" act1="ok" act2="ok" idTyrecheck="0" idCloudcore="152" nombreApi="Cloudcore" fechaInicio="2022-05-31" fechaFinal="2022-06-01" setTime="'.$fechaActual.'" pi="1" pf="1000" id="Cloudcore">';
-
 
 
 			

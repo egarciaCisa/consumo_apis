@@ -208,6 +208,20 @@ class ControladorInicio{
                     $fechaFinal = validarFechaFinaConsulta($_POST["fechaInicio"],$diaMes);
                     $settime = validarFechaFinaSetTime($_POST["fechaActual"],$_POST["setInterval"]);
 
+                    switch ($_POST["nombreApi"]) {
+                        case 'Tyrecheck':
+                           $hora = ' 00:00:00';
+                            break;
+
+                        case 'Cloudcore':
+                           $hora = ' 00:10:00';
+                            break;
+                        
+                    }
+
+                    $settime = substr($settime,0,-9);
+                    $settime = $settime.$hora;
+
 
 
                     $tabla = "tab_controlador";

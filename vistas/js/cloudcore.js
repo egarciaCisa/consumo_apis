@@ -31,16 +31,25 @@ function actualizarDatosJsonCloudcore(ultimoId,nomApi,token,fechaI,fechaF,fechaA
 					console.log("[Cloudcore] Registros [cargado] / setTime [ok]");
 					$("#loading").hide();
 					$("#dody").show();
+					setTimeout(() =>{
+						window.location = "index.php?pagina=cloudcore";
+					  },20000);
 				
 				}else if(respuesta == "ok-no"){
 					console.log("[Cloudcore] Registros [vacio] / setTime [ok]");
 					$("#loading").hide();
 					$("#dody").show();
+					setTimeout(() =>{
+						window.location = "index.php?pagina=cloudcore";
+					  },20000);
 					
 				}else{
 					console.log("[Cloudcore] Registros [error] / setTime [error]");
 					$("#loading").hide();
 					$("#dody").show();
+					setTimeout(() =>{
+						window.location = "index.php?pagina=cloudcore";
+					  },20000);
 
 				}
 
@@ -48,8 +57,6 @@ function actualizarDatosJsonCloudcore(ultimoId,nomApi,token,fechaI,fechaF,fechaA
 
 		});
 
-
-	
 
 }
 
@@ -84,19 +91,19 @@ function solicitarTokenCloudcore(ultimoId,nombApi,fechaI,fechaF,fechaA,fechaS,nu
 					processData: false,
 					success:function(respuesta){
 
-						//console.log(respuesta);
+						console.log(respuesta);
 			
 						if(respuesta){
 							$("#dody").show();
 							$("#loading").hide();
 							actualizarDatosJsonCloudcore(ultimoId,nombApi,respuesta,fechaI,fechaF,fechaA,fechaS,numF,numS,pi,pf);
-							console.log("[Cloudcore] token [ok] ");
+							console.log("[Cloudcore] token ["+respuesta+"] ");
 						
 						}else{
 
 							$("#dody").show();
 							$("#loading").hide();
-							console.log("[Cloudcore] token [error] ");
+							console.log("[Cloudcore] token ["+respuesta+"] ");
 						}
 
 					}
@@ -149,36 +156,38 @@ $(".tablaCloudcore").DataTable({
 });
 
 /*=============================================
-VARIABLAS GLOBLALES
-=============================================*/
-
-let id_cloudcore = $("#Cloudcore").attr("idCloudcore");
-let nombre_cloudcore = $("#Cloudcore").attr('nombreApi');
-let fechaI_cloudcore = $("#Cloudcore").attr('fechaInicio');
-let fechaF_cloudcore = $("#Cloudcore").attr('fechaFinal');
-let activador_cloudcore = $("#Cloudcore").attr('act');
-let fechaActual_cloudcore = $("#Cloudcore").attr('fechaActual');
-let fechaSetTime_cloudcore = $("#Cloudcore").attr('setTime');
-let numConsulta_cloudcore = $("#Cloudcore").attr('consulta');
-let numSetTime_cloudcore = $("#Cloudcore").attr('valueSetTime');
-let paginaI_cloudcore = $("#Cloudcore").attr('pi');
-let paginaF_cloudcore = $("#Cloudcore").attr('pf');
-
-/*=============================================
 Inicializar funciciones
 =============================================*/
 
+function validarTiempoFechaCloudcore(val) {
 
-if(id_cloudcore != "" && nombre_cloudcore == "Cloudcore" & fechaI_cloudcore != "" && fechaF_cloudcore != "" && fechaActual_cloudcore != "" && fechaSetTime_cloudcore != "" && activador_cloudcore == "ok"){
+	/*=============================================
+	VARIABLAS 
+	=============================================*/
 
-	solicitarTokenCloudcore(id_cloudcore,nombre_cloudcore,fechaI_cloudcore,fechaF_cloudcore,fechaActual_cloudcore,fechaSetTime_cloudcore,numConsulta_cloudcore,numSetTime_cloudcore,paginaI_cloudcore,paginaF_cloudcore);
+	let activador_cloudcore = val;
+	let id_cloudcore = $("#Cloudcore").attr("idCloudcore");
+	let nombre_cloudcore = $("#Cloudcore").attr('nombreApi');
+	let fechaI_cloudcore = $("#Cloudcore").attr('fechaInicio');
+	let fechaF_cloudcore = $("#Cloudcore").attr('fechaFinal');
+	let fechaActual_cloudcore = $("#Cloudcore").attr('fechaActual');
+	let fechaSetTime_cloudcore = $("#Cloudcore").attr('setTime');
+	let numConsulta_cloudcore = $("#Cloudcore").attr('consulta');
+	let numSetTime_cloudcore = $("#Cloudcore").attr('valueSetTime');
+	let paginaI_cloudcore = $("#Cloudcore").attr('pi');
+	let paginaF_cloudcore = $("#Cloudcore").attr('pf');
 
-}else{
 
-  $("#dody").show();
-  $("#loading").hide();
-  console.log("[Cloudcore] En espera...");
+	if(id_cloudcore != "" && nombre_cloudcore == "Cloudcore" & fechaI_cloudcore != "" && fechaF_cloudcore != "" && fechaActual_cloudcore != "" && fechaSetTime_cloudcore != "" && activador_cloudcore == "ok"){
 
+		solicitarTokenCloudcore(id_cloudcore,nombre_cloudcore,fechaI_cloudcore,fechaF_cloudcore,fechaActual_cloudcore,fechaSetTime_cloudcore,numConsulta_cloudcore,numSetTime_cloudcore,paginaI_cloudcore,paginaF_cloudcore);
+
+	}else{
+
+	$("#dody").show();
+	$("#loading").hide();
+
+	}
 }
 
 
@@ -188,22 +197,22 @@ Inicializar funciciones
 =============================================*/
 
 
-/*const d = document;
-let countdown = $('#Cloudcore').attr('setTime');
+//const d = document;
+let countdown_cloudcore = $('#Cloudcore').attr('setTime');
 
-      console.log(countdown);
-      countdownDate = new Date(countdown).getTime();
+//console.log(countdown);
+countdownDate_cloudcore = new Date(countdown_cloudcore).getTime();
 
-      let countdownTempo = setInterval(() => {
-        let now = new Date().getTime(),
-            limitTime = countdownDate - now,
-            days = Math.floor(limitTime / (1000*60*60*24)),
-            hours = ("0"+Math.floor(limitTime % (1000*60*60*24)/(1000*60*60))).slice(-2),
-            minutes = ("0"+Math.floor(limitTime % (1000*60*60)/(1000*60))).slice(-2),
-            seconds = ("0"+Math.floor(limitTime % (1000*60)/(1000))).slice(-2);
-            //console.log(days, hours, minutes, seconds);
-            if(limitTime < 0){
-                clearInterval(countdownTempo);
-                window.location = "index.php?pagina=tyrecheck";
-            }
-      },1000);*/
+let countdownTempo_cloudcore = setInterval(() => {
+  let now = new Date().getTime(),
+      limitTime = countdownDate_cloudcore - now,
+      days = Math.floor(limitTime / (1000*60*60*24)),
+      hours = ("0"+Math.floor(limitTime % (1000*60*60*24)/(1000*60*60))).slice(-2),
+      minutes = ("0"+Math.floor(limitTime % (1000*60*60)/(1000*60))).slice(-2),
+      seconds = ("0"+Math.floor(limitTime % (1000*60)/(1000))).slice(-2);
+      //console.log(days, hours, minutes, seconds);
+      if(limitTime < 0){
+          clearInterval(countdownTempo_cloudcore);
+		  validarTiempoFechaCloudcore("ok");        
+      }
+},1000);

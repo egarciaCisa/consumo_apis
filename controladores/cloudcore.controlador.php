@@ -8,8 +8,7 @@ class ControladorCloudcore{
 
     static public function ctrInsertarTokenCloudcore($datos){
 
-
-        function solicitarDatosJson($token,$fechaInicio,$fechaFinal,$pagInicio,$pagFinal){
+		function solicitarDatosJson($token,$fechaInicio,$fechaFinal,$pagInicio,$pagFinal){
 
             $curl = curl_init();  
             $api = 'https://corerdapi.ccoreapps.mx/invoices?start='.$fechaInicio.'&end='.$fechaFinal.'&page='.$pagInicio.'&pageSize='.$pagFinal.'';  
@@ -30,14 +29,18 @@ class ControladorCloudcore{
                 "Content-Type:application/json"
             );  
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);  
-            echo $response = curl_exec($curl); 
+            $response = curl_exec($curl); 
             curl_close($curl);
 
-            return $response;
+            if($response){
+				return $response;
+			}else{
+				return "{}";
+			}
 
         }
 
-        function solicitarXML($token,$fechaInicio,$fechaFinal,$pagInicio,$pagFinal){
+		function solicitarXML($token,$fechaInicio,$fechaFinal,$pagInicio,$pagFinal){
 
             $curl = curl_init();  
             $api = 'https://corerdapi.ccoreapps.mx/invoices/urls?start='.$fechaInicio.'&end='.$fechaFinal.'&page='.$pagInicio.'&pageSize='.$pagFinal.'';  
@@ -61,11 +64,17 @@ class ControladorCloudcore{
             $response = curl_exec($curl); 
             curl_close($curl);
 
-            return $response;
+			if($response){
+				return $response;
+			}else{
+				return "{}";
+			}
 
-        }
+            
 
-        function solicitarToken(){
+        }		
+
+		function solicitarToken(){
 
             $curl = curl_init();  
             $api = "https://corerdapi.ccoreapps.mx/auth/token";  
@@ -95,19 +104,25 @@ class ControladorCloudcore{
                 $token = $value["token"];
             }
 
-            return $token;
+			if($token){
+				return $token;
+			}else{
+				return null;
+			}
+
+            
 
         }
 
-        $token = solicitarToken();
-        $datosJson = solicitarDatosJson($token,$datos["fechaInicio"],$datos["fechaFinal"],$datos["paginaInicio"],$datos["paginaFinal"]);
-        $datosXML = solicitarXML($token,$datos["fechaInicio"],$datos["fechaFinal"],$datos["paginaInicio"],$datos["paginaFinal"]);
+		$token = solicitarToken();
+		$datosJson = solicitarDatosJson($token,$datos["fechaInicio"],$datos["fechaFinal"],$datos["paginaInicio"],$datos["paginaFinal"]);
+		$datosXML = solicitarXML($token,$datos["fechaInicio"],$datos["fechaFinal"],$datos["paginaInicio"],$datos["paginaFinal"]);
+		
+		if($token != null){
 
-    
-        if($token != null){
-            
+			if($datosJson != "{}" && $datosJson != "{}"){
 
-            $array = array("nombreApi" => $datos["nombreApi"],
+				$array = array("nombreApi" => $datos["nombreApi"],
                         "token" => $token,
                         "estado" => 200,
                         "dataJson1" => $datosJson,
@@ -117,18 +132,32 @@ class ControladorCloudcore{
                         "paginaInicio" => $datos["paginaInicio"],
                         "paginaFinal" => $datos["paginaFinal"]);
 
-        }else{
+			}else{
 
-
-            $array = array("nombreApi" => "null",
-                        "token" => "null",
-                        "estado" => 400,
-                        "dataJson1" => "null",
-                        "dataJson2" => "null",
+				$array = array("nombreApi" => $datos["nombreApi"],
+                        "token" => $token,
+                        "estado" => 200,
+                        "dataJson1" => $datosJson,
+                        "dataJson2" => $datosXML,
                         "fechaInicio" => $datos["fechaInicio"],
                         "fechaFinal" => $datos["fechaFinal"],
                         "paginaInicio" => $datos["paginaInicio"],
                         "paginaFinal" => $datos["paginaFinal"]);
+
+			}
+            
+        }else{
+
+
+            $array = array("nombreApi" => $datos["nombreApi"],
+                        "token" => "[error token]",
+                        "estado" => 400,
+                        "dataJson1" => "null",
+                        "dataJson2" => "null",
+                        "fechaInicio" => "",
+                        "fechaFinal" => "",
+                        "paginaInicio" => 0,
+                        "paginaFinal" => 0);
 
         }
 
@@ -143,8 +172,7 @@ class ControladorCloudcore{
 
             return "error token";
 
-        }
-
+		}
     
     }
 
@@ -225,8 +253,6 @@ class ControladorCloudcore{
             );
         }
 
-        
-
         $tabla2 = "tab_cloudcore_datajson";
         $respuesta2 = ModeloCloudcore::mdlGuardarTablaCloudcoreDataJson1($tabla2, $array);
 
@@ -242,7 +268,7 @@ class ControladorCloudcore{
 
 	static public function ctrActualizarSetTime($nombre,$setTime,$dia){
 
-		$hora = ' 00:00:10';
+		$hora = ' 00:10:00';
 
 		$fecha = substr($setTime,0,-8);
 

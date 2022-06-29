@@ -45,51 +45,35 @@
 
       <div class="row">
 
-        <div class="col-4">
+        <div class="col-sm-12 col-md-4">
 
-          <div class="">
+          <div class="mb-3">
               <button class="btn btn-primary btn-lg btn-block" type="button" data-toggle="modal" data-target="#crearConsultaApi">Registrar nueva Api</button>
               <div class="col-12">
-                  <ol class="list-group list-group-numbered pt-3">
-                      <li class="list-group-item d-flex justify-content-between align-items-start">
-                          <div class="ms-2 me-auto">
-                          <div class="fw-bold"><b>Consultas</b></div>
-                          Consultas GET a Apis
-                          </div>
-                          <span class="badge bg-primary rounded-pill">14</span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-start">
-                          <div class="ms-2 me-auto">
-                          <div class="fw-bold"><b>Consultas hechas</b></div>
-                          Consultas Api Tyrecheck
-                          </div>
-                          <span class="badge bg-primary rounded-pill">14</span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-start">
-                          <div class="ms-2 me-auto">
-                          <div class="fw-bold">Subheading</div>
-                          Cras justo odio
-                          </div>
-                          <span class="badge bg-primary rounded-pill">14</span>
-                      </li>
+              <ol class="list-group list-group-numbered pt-3">
+                   <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                        <div class="fw-bold"><b>Consultas</b></div>
+                        Consulta de Api: <?php echo $nombre_tyrecheck?>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">Cosula: <?php echo $ultimoRegistro_Tyrecheck?></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                        <div class="fw-bold"><b>Consultas</b></div>
+                        Consulta de Api: <?php echo $nombre_cloudcore?>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">Cosula: <?php echo $ultimoRegistro_Cloudcore?></span>
+                    </li>
                   </ol>
               </div>
           </div>
 
         </div>
 
-        
-
-        <div class="col-8">
-
-            
-
-
+        <div class="col-sm-12 col-md-8">
 
                 <?php
-
-               
-
 
                     foreach ($controlador as $key => $value) {
 
@@ -99,6 +83,8 @@
                           <div class="card-header">
 
                           <h3 class="card-title">Controlador</h3>
+
+                          <button type="button" class="btn btn-tool float-right" data-widget="collapse"><i class="fas fa-minus"></i></button>
 
                           </div>
 
@@ -127,61 +113,79 @@
 
                               <h5 class="card-title mb-3"><b>Consulta GET</b></h5>
 
+                              <div class="clearfix"></div>
+
                               <!-- input fechas -->
 
-                              <div class="input-group mb-3">
-                              
-                              <div class="input-group-append input-group-text">
-                                  
-                                <span class="fas fa-calendar-day pr-3"></span><b class="pr-3">Fecha Inicio: </b>
+                              div.flex-
 
-                              </div>
+                              <div class="col-6">
 
-                              <input type="text" class="form-control" name="fechaActual" value="'.$value["fechaInicio"].'" >   
-
-                              </div>
-
-                              <!-- input fecha -->
-
-                              <div class="input-group mb-3">
-                              
-                                <div class="input-group-append input-group-text">
-                                    
-                                    <span class="fas fa-calendar-day pr-3"></span><b class="pr-3">Fecha Final: </b>
-
-                                </div>
-
-                                <input type="text" class="form-control" name="registroPassword" value="'.$value["fechaFinal"].'" disabled>   
-
-                              </div>
-
-                              <!-- input consulta -->
-
-                              <div class="input-group mb-3">
-
-                                <div class="input-group-append input-group-text">
-                                    
-                                    <span class="	fas fa-calendar-check pr-3"></span><b class="pr-3">Consulta: </b>
+                                <div class="input-group mb-3 ">
                                 
+                                  <div class="input-group-append input-group-text">
+                                      
+                                    <span class="fas fa-calendar-day pr-3"></span><b class="pr-3">Fecha Inicio: </b>
+
+                                  </div>
+
+                                  <input type="text" class="form-control" name="fechaActual" value="'.$value["fechaInicio"].'" >   
+
                                 </div>
+
+                                <!-- input fecha -->
+
+                                <div class="input-group mb-3 ">
+                                
+                                  <div class="input-group-append input-group-text">
+                                      
+                                      <span class="fas fa-calendar-day pr-3"></span><b class="pr-3">Fecha Final: </b>
+
+                                  </div>
+
+                                  <input type="text" class="form-control" name="registroPassword" value="'.$value["fechaFinal"].'" disabled>   
+
+                                </div>
+                              
+                              </div>
+
+                              <div class="col-6">
+
+                                <!-- input consulta -->
+
+                                <div class="input-group mb-3">
+
+                                  <div class="input-group-append input-group-text">
+                                      
+                                      <span class="	fas fa-calendar-check pr-3"></span><b class="pr-3">Consulta: </b>
+                                  
+                                  </div>
+
+                                
+
+                                  <select class="form-control"  id="fechaFinal"  required>
+
+                                      <option value="1">Consultar por día</option>
+
+                                      <option value="2">Consultar por 2 días</option>
+
+                                      <option value="7">Consultar por 7 días</option>
+
+                                      <option value="10">Consultar por 10 días</option>
+
+                                      <option value="30">Consultar por 30 días</option>
+
+                                  </select> 
+
+                                </div>
+                              
+                              </div>
 
                               
 
-                                <select class="form-control"  id="fechaFinal"  required>
+                              
 
-                                    <option value="1">Consultar por día</option>
-
-                                    <option value="2">Consultar por 2 días</option>
-
-                                    <option value="7">Consultar por 7 días</option>
-
-                                    <option value="10">Consultar por 10 días</option>
-
-                                    <option value="30">Consultar por 30 días</option>
-
-                                </select> 
-
-                              </div>
+                              
 
                               <h5 class="card-title mb-3"><b>Recargar Sistema</b></h5>
 

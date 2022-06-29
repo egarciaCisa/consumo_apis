@@ -1,10 +1,7 @@
 <?php
 
 
-
-
-
-  
+ 
 ?>
 
 <div class="content-wrapper" style="min-height: 717px;">
@@ -17,9 +14,17 @@
 
         <div class="col-sm-6">
 
-          <h1 id="tiempo">Consulta de Api <?php echo $nombre_cloudcore?></h1>
+          <h1 id="tiempo">RESGISTROS</h1>
 
           <div id="countdown2"></div>
+
+          <?php
+
+
+            
+
+
+          ?>
 
         </div>
 
@@ -27,8 +32,8 @@
 
           <ol class="breadcrumb float-sm-right">
 
-            <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-            <li class="breadcrumb-item active">Registros</li>
+            <li class="breadcrumb-item"><a href="inicio">INICIO</a></li>
+            <li class="breadcrumb-item active">RESGISTROS</li>
 
           </ol>
 
@@ -50,9 +55,18 @@
 
           <div class="card card-info card-outline">
 
-            <div class="card-header">
+            <div class="card-header flex-center">
 
-            <div class='countdown pull-rigth' reset="<?php echo $fechaBaseDatos_Cloudcore["setTime"] ?>"></div>
+              <div class='countdown pull-rigth' reset="<?php echo $fechaBaseDatos_Cloudcore["setTime"] ?>"></div>
+              <div class="col-sm-9 pl-3">
+                <?php
+
+                    echo'<h6 class="mt-1"><strong>Api:</strong> '.$nombre_cloudcore.'</h6>
+                    <h6><strong>Consultas:</strong> '.count($numTabConsultaDataJson_Cloudcore).' registros</h6>
+                    <h6><strong>Registros Totales:</strong> '.count($numTabConsulta_Cloudcore).' registros</h6>';
+
+                ?>
+              </div>
 
             </div>
 
@@ -64,14 +78,16 @@
                 
                 <thead>
                   
-                  <tr>
+                  <tr class="text-center">
                     
                     <th style="width:10px">#</th>
-                    <th>Nombre de la Api</th>
+                    <th>Proveedor</th>
+                    <th>Respuesta</th>
                     <th>Token</th>
-                    <th>Estado</th>
-                    <th>Fecha Final</th>
-                    <th>DataJson</th>
+                    <th>Fechas consultadas</th>
+                    <th>Registros</th>
+                    <th>Consulta</th>
+                    <th>Datos JSON</th>
                   </tr>
 
                 </thead>

@@ -409,7 +409,7 @@ class ControladorTyrecheck{
 
 	static public function ctrActualizarSetTime($nombre,$setTime,$dia){
 
-		$hora = ' 00:00:10';
+		$hora = ' 00:00:00';
 
 		$fecha = substr($setTime,0,-8);
 
@@ -699,7 +699,7 @@ class ControladorTyrecheck{
 			}
 	
 			
-			return $respuesta;
+			return $array;
 		}
 	
 	
@@ -713,8 +713,12 @@ class ControladorTyrecheck{
 		$valor3 = $fechas["fechaFinal"];
 
 		return $respuesta = ModeloTyrecheck::mdlAactualizarConsultafechas($tabla, $item1, $valor1, $item2, $valor2, $item3, $valor3);
+
+		//return $nombre.'-'.$fechFinal.'-'.$consulta.'-'.$ok.'-';
+
+		//return $valor1;
 		
-		//return verificarFecha($fechFinal,$consulta);
+		//return verificarFecha($fechFinal,$consulta,$ok);
 	}
 
 
