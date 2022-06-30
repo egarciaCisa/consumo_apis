@@ -68,4 +68,14 @@
   </div>
   <!-- /.login-box -->
 
+  <script src="vistas/js/main.js" type="module"></script>
+
+  <script src="vistas/js/consulta.js"></script>
+
+  <script src="vistas/js/administradores.js"></script>
+
+  <script src="vistas/js/tyrecheck.js"></script>
+
+  <script src="vistas/js/cloudcore.js"></script>
+
 </body>

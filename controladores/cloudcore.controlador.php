@@ -199,59 +199,54 @@ class ControladorCloudcore{
 
         }
 
-		$tabla = "tab_cloudcore_consulta";
-        $item = "id";
-        $valor = $datos["idConsulta"];
-        $respuestaVista = ModeloCloudcore::mdlMostrarTablaConsultaCloudcore($tabla, $item, $valor);
-        $id = $datos["idConsulta"];
-        $array = array();
-
 
         $tabla = "tab_cloudcore_consulta";
         $item = "id";
         $valor = $datos["idConsulta"];
-        $respuestaVista = ModeloCloudcore::mdlMostrarTablaConsultaCloudcore($tabla, $item, $valor);
+        $respuestaVista = ModeloCloudcore::mdlMostrarTablaConsultaCloudcore($tabla, $item, $valor,null);
         $id = $datos["idConsulta"];
         $array = array();
 
         $dataJson1 = json_decode($respuestaVista["dataJson1"],true);
         $dataJson2 = json_decode($respuestaVista["dtaaJson2"],true);
 
-        foreach ($dataJson1 as $key => $value) {
+
+		foreach ($dataJson1 as $key => $value) {
 	
-            $array[$key] = array(
-                                
-                "id_consulta" => $id,
-                "invoiceId" => $value["invoiceId"],
-                "taxFolio" => $value["taxFolio"],
-                "issuer" => $value["issuer"],
-                "issuerRfc" => $value["issuerRfc"],
-                "issuerAddress" => $value["issuerAddress"],
-                "receiver" => $value["receiver"],
-                "receiverRfc" => $value["receiverRfc"],
-                "receiverAddress" => $value["receiverAddress"],
-                "subtotal" => $value["subtotal"],
-                "discount" => $value["discount"],
-                "total" => $value["total"],
-                "transferredTaxes" => $value["transferredTaxes"],
-                "retainedTaxes" => $value["retainedTaxes"],
-                "issueDate" => $value["issueDate"],
-                "concepts" => $value["concepts"],
-                "voucherType" => $value["voucherType"],
-                "issuingPlace" => $value["issuingPlace"],
-                "cfdiUsageId" => $value["cfdiUsageId"],
-                "changeType" => $value["changeType"],
-                "issuerRegimeTax" => $value["issuerRegimeTax"],
-                "currency" => $value["currency"],
-                "folio" => $value["folio"],
-                "series" => $value["series"],
-                "paymentMethod" => $value["paymentMethod"],
-                "paymentWay" => $value["paymentWay"],
-                "url" => obtenerUrlXML($dataJson2,$value["invoiceId"])
-               
-          
-            );
-        }
+			$array[$key] = array(
+								
+				"id_consulta" => $id,
+				"invoiceId" => $value["invoiceId"],
+				"taxFolio" => $value["taxFolio"],
+				"issuer" => $value["issuer"],
+				"issuerRfc" => $value["issuerRfc"],
+				"issuerAddress" => $value["issuerAddress"],
+				"receiver" => $value["receiver"],
+				"receiverRfc" => $value["receiverRfc"],
+				"receiverAddress" => $value["receiverAddress"],
+				"subtotal" => $value["subtotal"],
+				"discount" => $value["discount"],
+				"total" => $value["total"],
+				"transferredTaxes" => $value["transferredTaxes"],
+				"retainedTaxes" => $value["retainedTaxes"],
+				"issueDate" => $value["issueDate"],
+				"concepts" => $value["concepts"],
+				"voucherType" => $value["voucherType"],
+				"issuingPlace" => $value["issuingPlace"],
+				"cfdiUsageId" => $value["cfdiUsageId"],
+				"changeType" => $value["changeType"],
+				"issuerRegimeTax" => $value["issuerRegimeTax"],
+				"currency" => $value["currency"],
+				"folio" => $value["folio"],
+				"series" => $value["series"],
+				"paymentMethod" => $value["paymentMethod"],
+				"paymentWay" => $value["paymentWay"],
+				"url" => obtenerUrlXML($dataJson2,$value["invoiceId"])
+			
+		
+			);
+		}
+
 
         $tabla2 = "tab_cloudcore_datajson";
         $respuesta2 = ModeloCloudcore::mdlGuardarTablaCloudcoreDataJson1($tabla2, $array);
@@ -583,11 +578,11 @@ class ControladorCloudcore{
 	
 	
 
-    static public function ctrMostrarConsulta($item, $valor){
+    static public function ctrMostrarConsulta($item, $valor,$orden){
 
 		$tabla = "tab_cloudcore_consulta";
 
-		$respuesta = ModeloCloudcore::mdlMostrarTablaConsultaCloudcore($tabla, $item, $valor);
+		$respuesta = ModeloCloudcore::mdlMostrarTablaConsultaCloudcore($tabla, $item, $valor,$orden);
 
 		return $respuesta;
 

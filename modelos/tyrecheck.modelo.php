@@ -11,7 +11,7 @@ class ModeloTyrecheck{
 	/*=============================================
 	Mostrar Administradores
 	=============================================*/
-	static public function mdlMostrarTablaConsultaTyrecheck($tabla, $item, $valor){
+	static public function mdlMostrarTablaConsultaTyrecheck($tabla, $item, $valor,$orden){
 
 		if($item != null && $valor != null){
 
@@ -394,6 +394,21 @@ class ModeloTyrecheck{
 		$stmt -> close();
 
 		$stmt = null;
+
+	}
+
+	static public function mldMostrarTotalDeRegistros($tabla){
+
+		$stmt = Conexion::conectar()->prepare("SELECT count(*) as total from $tabla");
+
+		$stmt -> execute();
+
+		return $stmt -> fetchAll();
+
+		$stmt -> close();
+
+		$stmt = null;
+
 
 	}
 

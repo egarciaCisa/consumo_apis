@@ -12,7 +12,7 @@ class TablaCloudcore{
 
 	public function mostrarTabla(){
 
-		$respuesta = ControladorCloudcore::ctrMostrarConsulta(null, null);
+		$respuesta = ControladorCloudcore::ctrMostrarConsulta(null, null,'DESC');
 
 
 		if(count($respuesta) == 0){

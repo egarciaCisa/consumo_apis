@@ -6,15 +6,22 @@ session_start();
 $ruta = ControladorRuta::ctrRuta();
 $htacces = "index.php?pagina=";
 
+function obtenerTotalDeRegistros($arreglo){
+	foreach ($arreglo as $key => $value) {
+		return $value[0];
+	}
+}
+
 //controladores Tyrecheck
-$ultimoRegistro_Tyrecheck = ControladorTyrecheck::ctrMostrarConsulta(null,null);
-$ultimoRegistro_Tyrecheck = (count($ultimoRegistro_Tyrecheck));
+$ultimoRegistro_Tyrecheck = ModeloTyrecheck::mldMostrarTotalDeRegistros("consulta");
+$ultimoRegistro_Tyrecheck = obtenerTotalDeRegistros($ultimoRegistro_Tyrecheck);
 $ultimoRegistro_Tyrecheck = $ultimoRegistro_Tyrecheck+1;
 $nombre_tyrecheck = "Tyrecheck";
 $fechaCountdown_Tyrecheck = ControladorInicio::ctrMostrarConsultaControlador("nombreApi",$nombre_tyrecheck);
 
-$ultimoRegistro_Cloudcore = ControladorCloudcore::ctrMostrarConsulta(null,null);
-$ultimoRegistro_Cloudcore = (count($ultimoRegistro_Cloudcore));
+
+$ultimoRegistro_Cloudcore = ModeloCloudcore::mldMostrarTotalDeRegistros("tab_cloudcore_consulta");
+$ultimoRegistro_Cloudcore = obtenerTotalDeRegistros($ultimoRegistro_Cloudcore);
 $ultimoRegistro_Cloudcore = $ultimoRegistro_Cloudcore+1;
 $nombre_cloudcore = "Cloudcore";
 $fechaBaseDatos_Cloudcore = ControladorInicio::ctrMostrarConsultaControlador("nombreApi",$nombre_cloudcore);
@@ -26,6 +33,7 @@ $fecha = date('Y-m-d');
 $hora = date('H:i:s');
 $fechaActual = $fecha.' '.$hora;
 $controlador = ControladorInicio::ctrMostrarConsultaControlador(null,null);
+
 
 function actualizarConsultaGetTime($fechaActual,$setTime){
 
@@ -82,21 +90,30 @@ if($controlador){
 
 }
 
-if($fechaBaseDatos_Tyrecheck > $fechaActual){
+
+if($fechaBaseDatos_Tyrecheck["settime"] > $fechaActual){
 	$dateTime1 = new DateTime($fechaFinal);
 	$dateTime2 = new DateTime($fechaActual);
 
 	$interval = date_diff($dateTime1,$dateTime2);
 
 	$tiempoFin = $interval->format('%h');
+
+
 }
 
+$numTabConsulta_Tyrecheck = ModeloTyrecheck::mldMostrarTotalDeRegistros("tab_tirecheck_datajson");
+$numTabConsulta_Tyrecheck = obtenerTotalDeRegistros($numTabConsulta_Tyrecheck);
+$numTabMesurements_Tyrecheck = ModeloTyrecheck::mldMostrarTotalDeRegistros("tab_tirecheck_measurements");
+$numTabMesurements_Tyrecheck = obtenerTotalDeRegistros($numTabMesurements_Tyrecheck);
+$numTabObservations_Tyrecheck = ModeloTyrecheck::mldMostrarTotalDeRegistros("tab_tirecheck_observations");
+$numTabObservations_Tyrecheck = obtenerTotalDeRegistros($numTabObservations_Tyrecheck);
 
-$numTabConsultaTyrecheck = ControladorTyrecheck::ctrConsultaTyrechekDataJoson(null,null);
-$numTabMesurementsTyrecheck = ControladorTyrecheck::ctrConsultaTyrechekMeasurements(null,null);
-$numTabObservationsTyrecheck = ControladorTyrecheck::ctrConsultaTyrechekObservations(null,null);
-$numTabConsulta_Cloudcore = ControladorCloudcore::ctrConsultaCloudcore(null,null);
-$numTabConsultaDataJson_Cloudcore = ControladorCloudcore::ctrConsultaCloudcoreDataJoson(null,null);
+$numTabConsulta_Cloudcore = ModeloCloudcore::mldMostrarTotalDeRegistros("tab_cloudcore_consulta");
+$numTabConsulta_Cloudcore = obtenerTotalDeRegistros($numTabConsulta_Cloudcore);
+$numTabConsultaDataJson_Cloudcore = ModeloCloudcore::mldMostrarTotalDeRegistros("tab_cloudcore_datajson");
+$numTabConsultaDataJson_Cloudcore = obtenerTotalDeRegistros($numTabConsultaDataJson_Cloudcore);
+
 
 
 if(isset($_SESSION["idBackend"])){
@@ -104,8 +121,6 @@ if(isset($_SESSION["idBackend"])){
 	$admin = ControladorAdministradores::ctrMostrarAdministradores("id", $_SESSION["idBackend"]);
 
 }
-
-//echo  '<script>alert("ok");</script>';
 
 ?>
 
@@ -237,9 +252,12 @@ if(isset($_SESSION["idBackend"])){
 
 </head>
 
-<?php if (!isset($_SESSION["validarSesionBackend"])): 
+<div class="contenedor-carga" id="loading" style="display:none">
+	<div class="carga"></div>
+</div>
 
-	include "paginas/login.php";
+<form method="post">
+	<?php
 
 	if(count($arrayTime) != 0){
 
@@ -254,52 +272,26 @@ if(isset($_SESSION["idBackend"])){
 
 	}
 
-	echo '	<script src="vistas/js/main.js" type="module"></script>
 
-			<script src="vistas/js/consulta.js"></script>
+		
+	
+	?>
 
-			<script src="vistas/js/administradores.js"></script>
+	<input type="hidden" id="datosJsonTyrecheck" value="">
+</form>
 
-			<script src="vistas/js/tyrecheck.js"></script>
+<?php if (!isset($_SESSION["validarSesionBackend"])): 
 
-			<script src="vistas/js/cloudcore.js"></script>';
+	include "paginas/login.php";
 
 ?>
 
 <?php else: ?>
 
-<div class="contenedor-carga" id="loading" style="display:none">
-	<div class="carga"></div>
-</div>
-
+	
 
 <body class="hold-transition sidebar-mini sidebar-collapse" id="body">
-	<form method="post">
-		<?php
-
-		if(count($arrayTime) != 0){
-
-			foreach ($arrayTime as $key => $value) {
-
-				echo '<input type="hidden" act="'.$value["actualizar"].'" idTyrecheck="'.$value["idTyrecheck"].'" idCloudcore="'.$value["idCloudcore"].'" nombreApi="'.$value["nombreApi"].'" fechaInicio="'.$value["fechaInicio"].'" fechaFinal="'.$value["fechaFinal"].'" setTime="'.$value["setTime"].'" fechaActual="'.$fechaActual.'" consulta="'.$value["consulta"].'" valueSetTime="'.$value["valueSetTime"].'" pi="'.$value["paginaInicio"].'" pf="'.$value["paginaFinal"].'" id="'.$value["nombreApi"].'" >';
 	
-			}
-
-		}else{
-
-
-		}
-
-
-			
-		
-		?>
-
-		
-		
-		<input type="hidden" id="datosJsonTyrecheck" value="">
-		
-	</form>
 	<div class="wrapper">
 
 		<?php 
@@ -342,7 +334,7 @@ if(isset($_SESSION["idBackend"])){
 
 		?>
 
-
+		
 	</div>
 
 	<script src="vistas/js/main.js" type="module"></script>

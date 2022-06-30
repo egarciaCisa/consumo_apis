@@ -722,11 +722,11 @@ class ControladorTyrecheck{
 	}
 
 
-	static public function ctrMostrarConsulta($item, $valor){
+	static public function ctrMostrarConsulta($item, $valor, $orden){
 
 		$tabla = "consulta";
 
-		$respuesta = ModeloTyrecheck::mdlMostrarTablaConsultaTyrecheck($tabla, $item, $valor);
+		$respuesta = ModeloTyrecheck::mdlMostrarTablaConsultaTyrecheck($tabla, $item, $valor,$orden);
 
 		return $respuesta;
 

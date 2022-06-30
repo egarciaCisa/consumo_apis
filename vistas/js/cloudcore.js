@@ -24,7 +24,7 @@ function actualizarDatosJsonCloudcore(ultimoId,nomApi,token,fechaI,fechaF,fechaA
 			processData: false,
 			success:function(respuesta){
 
-				console.log(respuesta);
+				//console.log(respuesta);
 	
 				if(respuesta == "ok-si"){
 
@@ -33,7 +33,7 @@ function actualizarDatosJsonCloudcore(ultimoId,nomApi,token,fechaI,fechaF,fechaA
 					$("#dody").show();
 					setTimeout(() =>{
 						window.location = "index.php?pagina=cloudcore";
-					  },20000);
+					  },5000);
 				
 				}else if(respuesta == "ok-no"){
 					console.log("[Cloudcore] Registros [vacio] / setTime [ok]");
@@ -41,7 +41,7 @@ function actualizarDatosJsonCloudcore(ultimoId,nomApi,token,fechaI,fechaF,fechaA
 					$("#dody").show();
 					setTimeout(() =>{
 						window.location = "index.php?pagina=cloudcore";
-					  },20000);
+					  },5000);
 					
 				}else{
 					console.log("[Cloudcore] Registros [error] / setTime [error]");
@@ -49,7 +49,7 @@ function actualizarDatosJsonCloudcore(ultimoId,nomApi,token,fechaI,fechaF,fechaA
 					$("#dody").show();
 					setTimeout(() =>{
 						window.location = "index.php?pagina=cloudcore";
-					  },20000);
+					  },5000);
 
 				}
 
@@ -66,9 +66,7 @@ function solicitarTokenCloudcore(ultimoId,nombApi,fechaI,fechaF,fechaA,fechaS,nu
 
 		//console.log(ultimoId);
 
-		$("#dody").hide();
-		$("#loading").show();
-		
+	
 		ultimoId = parseInt(ultimoId);
 	
 			if(nombApi != ""){
@@ -91,18 +89,16 @@ function solicitarTokenCloudcore(ultimoId,nombApi,fechaI,fechaF,fechaA,fechaS,nu
 					processData: false,
 					success:function(respuesta){
 
-						console.log(respuesta);
+						//console.log(respuesta);
 			
 						if(respuesta){
-							$("#dody").show();
-							$("#loading").hide();
+						
 							actualizarDatosJsonCloudcore(ultimoId,nombApi,respuesta,fechaI,fechaF,fechaA,fechaS,numF,numS,pi,pf);
 							console.log("[Cloudcore] token ["+respuesta+"] ");
 						
 						}else{
 
-							$("#dody").show();
-							$("#loading").hide();
+							
 							console.log("[Cloudcore] token ["+respuesta+"] ");
 						}
 
@@ -180,6 +176,9 @@ function validarTiempoFechaCloudcore(val) {
 
 	if(id_cloudcore != "" && nombre_cloudcore == "Cloudcore" & fechaI_cloudcore != "" && fechaF_cloudcore != "" && fechaActual_cloudcore != "" && fechaSetTime_cloudcore != "" && activador_cloudcore == "ok"){
 
+
+		$("#dody").hide();
+		$("#loading").show();	
 		solicitarTokenCloudcore(id_cloudcore,nombre_cloudcore,fechaI_cloudcore,fechaF_cloudcore,fechaActual_cloudcore,fechaSetTime_cloudcore,numConsulta_cloudcore,numSetTime_cloudcore,paginaI_cloudcore,paginaF_cloudcore);
 
 	}else{

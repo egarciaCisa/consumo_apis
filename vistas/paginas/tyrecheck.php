@@ -57,9 +57,9 @@
                 <?php
 
                     echo'<h6 class="mt-1"><strong>Api:</strong> '.$nombre_tyrecheck.'</h6>
-                        <h6 class="mt-1"><strong>Registros Totales:</strong> '.count($numTabConsultaTyrecheck).'</h6>
-                        <h6><strong>Registro Total: :</strong> '.count($numTabMesurementsTyrecheck).' Measurements</h6>
-                        <h6><strong>Registro Total :</strong> '.count($numTabObservationsTyrecheck).' Observations</h6>';
+                        <h6 class="mt-1"><strong>Registros Totales:</strong> '.$numTabConsulta_Tyrecheck.'</h6>
+                        <h6><strong>Registro Total: :</strong> '.$numTabMesurements_Tyrecheck.' Measurements</h6>
+                        <h6><strong>Registro Total :</strong> '.$numTabObservations_Tyrecheck.' Observations</h6>';
 
                 ?>
               </div>

@@ -109,18 +109,18 @@ class AjaxTyrecheck{
 
 				}else{
 
-					echo "error";
+					echo "error-Consulta CURL";
 
 				}
 			}else{
 
-				echo "error";
+				echo "error-Guardar Tabla Data Json";
 
 			}
 
 		}else{
 
-			echo "error";
+			echo "error-Actualizacion JSON";
 
 		}
 		

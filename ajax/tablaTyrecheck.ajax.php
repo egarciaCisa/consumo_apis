@@ -12,7 +12,7 @@ class TablaAutentificacion{
 
 	public function mostrarTabla(){
 
-		$respuesta = ControladorTyrecheck::ctrMostrarConsulta(null, null);
+		$respuesta = ControladorTyrecheck::ctrMostrarConsulta(null, null,'DESC');
 
 
 		if(count($respuesta) == 0){

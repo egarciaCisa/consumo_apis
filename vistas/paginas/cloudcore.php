@@ -62,8 +62,8 @@
                 <?php
 
                     echo'<h6 class="mt-1"><strong>Api:</strong> '.$nombre_cloudcore.'</h6>
-                    <h6><strong>Consultas:</strong> '.count($numTabConsultaDataJson_Cloudcore).' registros</h6>
-                    <h6><strong>Registros Totales:</strong> '.count($numTabConsulta_Cloudcore).' registros</h6>';
+                    <h6><strong>Consultas:</strong> '.$numTabConsulta_Cloudcore.' registros</h6>
+                    <h6><strong>Registros Totales:</strong> '.$numTabConsultaDataJson_Cloudcore.' registros</h6>';
 
                 ?>
               </div>

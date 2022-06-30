@@ -54,8 +54,6 @@ function solicitarTotalDeDatosJson(ultimoId,token,fechaI,fechaF,fechaA,fechaS,nu
           if(respuesta == "ok"){
 
               console.log("[Tyrocheck] Registros [cargado] / setTime [ok]  ");
-              $("#loading").hide();
-              $("#dody").show();
               setTimeout(() =>{
                 window.location = "index.php?pagina=tyrecheck";
               },20000);
@@ -248,9 +246,10 @@ function validarTiempoFechaTyrocheck(val) {
 
   if(id_tyrecheck != "" && nombre_tyrecheck == "Tyrecheck" & fechaI_tyrecheck != "" && fechaF_tyrecheck != "" && fechaActual_tyrocheck != "" && fechaSetTime_tyrocheck != "" && activador_tyrocheck == "ok"){
 
+    $("#loading").hide();
+    $("#dody").show();
     solicitarTokenTirechek(id_tyrecheck,nombre_tyrecheck,fechaI_tyrecheck,fechaF_tyrecheck,fechaActual_tyrocheck,fechaSetTime_tyrocheck,numConsulta_tyrocheck,numSetTime_tyrocheck);
-  
-  
+    
   }else{
   
     $("#dody").show();

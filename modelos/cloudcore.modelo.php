@@ -28,8 +28,9 @@ class ModeloCloudcore{
 
 		}else{
 
-			echo "\nPDO::errorInfo():\n";
-    		print_r(Conexion::conectar()->errorInfo());
+			//echo "\nPDO::errorInfo():\n";
+    		//print_r(Conexion::conectar()->errorInfo());
+			return "error-BD";
 		
 		}
 
@@ -41,7 +42,7 @@ class ModeloCloudcore{
     /*=============================================
 	MOSTRAR TABLA CONSULA CLOUDCORE
 	=============================================*/
-	static public function mdlMostrarTablaConsultaCloudcore($tabla, $item, $valor){
+	static public function mdlMostrarTablaConsultaCloudcore($tabla, $item, $valor, $orden){
 
 		if($item != null && $valor != null){
 
@@ -87,8 +88,8 @@ class ModeloCloudcore{
 		
 		}else{
 
-			echo "\nPDO::errorInfo():\n";
-    		print_r(Conexion::conectar()->errorInfo());
+		
+			return "error-BD";
 
 		}
 
@@ -144,8 +145,8 @@ class ModeloCloudcore{
 
             }else{
 
-                echo "\nPDO::errorInfo():\n";
-                print_r(Conexion::conectar()->errorInfo());
+           
+				return "error-BD";
             
             }	
 
@@ -175,8 +176,8 @@ class ModeloCloudcore{
 		
 		}else{
 
-			echo "\nPDO::errorInfo():\n";
-    		print_r(Conexion::conectar()->errorInfo());
+		
+			return "error-BD";
 
 		}
 
@@ -204,14 +205,30 @@ class ModeloCloudcore{
 		
 		}else{
 
-			echo "\nPDO::errorInfo():\n";
-    		print_r(Conexion::conectar()->errorInfo());
+			
+			return "error-BD";
 
 		}
 
 		$stmt -> close();
 
 		$stmt = null;
+
+	}
+
+	static public function mldMostrarTotalDeRegistros($tabla){
+
+		$stmt = Conexion::conectar()->prepare("SELECT count(*) as total from $tabla");
+
+		$stmt -> execute();
+
+		return $stmt -> fetchAll();
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	
 
 	}
 
